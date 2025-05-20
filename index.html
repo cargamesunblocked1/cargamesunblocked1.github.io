@@ -1,374 +1,299 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Zontal - Arcade Platform</title>
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: system-ui, -apple-system, sans-serif; line-height: 1.6; background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); color: #e2e8f0; overflow-x: hidden; }
+        .container-zon { max-width: 1320px; margin: 0 auto; padding: 16px; }
+        h2 { font-size: 2rem; font-weight: 700; color: #f8fafc; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.05em; }
+        h3 { font-size: 0.9rem; font-weight: 600; color: #f8fafc; }
+        header { background: #1e3a8a; padding: 12px; position: sticky; top: 0; z-index: 1000; }
+        header .container-zon { display: flex; justify-content: space-between; align-items: center; }
+        header .logo { display: flex; align-items: center; gap: 8px; }
+        header .logo img { height: 32px; width: 32px; border-radius: 50%; object-fit: cover; }
+        header h1 { font-size: 1.5rem; font-weight: 700; color: #fff; }
+        header nav { display: flex; align-items: center; gap: 16px; }
+        header nav ul { display: flex; gap: 16px; }
+        header nav a { color: #e2e8f0; text-decoration: none; font-weight: 600; font-size: 0.9rem; padding: 6px 12px; border-radius: 20px; position: relative; }
+        header nav a::after { content: ''; position: absolute; width: 0; height: 2px; bottom: 4px; left: 50%; background: #fff; transition: width 0.2s ease; }
+        header nav a:hover::after { width: 50%; left: 25%; }
+        header nav a:hover { color: #fff; }
+        header .search-icon { font-size: 1.1rem; color: #e2e8f0; cursor: pointer; }
+        .search-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center; z-index: 2000; opacity: 0; visibility: hidden; transition: opacity 0.2s ease; }
+        .search-modal.active { opacity: 1; visibility: visible; }
+        .search-modal .search-box { background: #1e293b; padding: 16px; border-radius: 12px; width: 90%; max-width: 500px; position: relative; }
+        .search-modal .close-btn { position: absolute; top: 12px; right: 12px; font-size: 1.3rem; color: #e2e8f0; cursor: pointer; }
+        .search-modal .close-btn:hover { color: #f43f5e; }
+        .search-modal input { width: 100%; padding: 10px; font-size: 0.9rem; background: #334155; border: none; border-radius: 6px; color: #e2e8f0; outline: none; margin-bottom: 12px; }
+        .search-modal .search-results { max-height: 250px; overflow-y: auto; }
+        .search-modal .search-results a { display: block; padding: 10px; color: #e2e8f0; text-decoration: none; border-bottom: 1px solid #334155; }
+        .search-modal .search-results a:hover { background: #334155; }
+        .featured-game { margin-bottom: 32px; }
+        .slider { width: 100%; height: 250px; overflow: hidden; border-radius: 16px; }
+        .slider-wrapper { display: flex; height: 100%; transition: transform 0.3s ease; }
+        .slide { flex: 0 0 100%; height: 100%; }
+        @media (min-width: 1024px) { .slide { flex: 0 0 33.333%; } }
+        .slide a { display: block; position: relative; width: 100%; height: 100%; border-radius: 16px; overflow: hidden; text-decoration: none; box-shadow: 0 4px 8px rgba(0,0,0,0.2); transition: transform 0.2s ease; }
+        .slide a:hover { transform: translateY(-4px); box-shadow: 0 8px 16px rgba(0,0,0,0.3); }
+        .slide img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.2s ease; }
+        .slide a:hover img { transform: scale(1.05); }
+        .slide .gradient-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.7), rgba(0,0,0,0.1)); }
+        .slide .play-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%) scale(0); color: #fff; font-size: 1rem; font-weight: 600; opacity: 0; transition: transform 0.2s ease, opacity 0.2s ease; z-index: 2; }
+        .slide a:hover .play-text { transform: translate(-50%,-50%) scale(1); opacity: 1; }
+        .slide h3 { position: absolute; bottom: 8px; left: 8px; padding: 6px; font-size: 0.9rem; z-index: 1; }
+        .slider-nav { position: absolute; top: 50%; width: 100%; display: flex; justify-content: space-between; transform: translateY(-50%); z-index: 3; }
+        .slider-nav button { background: #f43f5e; color: #fff; border: none; padding: 10px; cursor: pointer; font-size: 1rem; border-radius: 50%; transition: background 0.2s ease; }
+        .slider-nav button:hover { background: #e11d48; }
+        .masonry-grid { column-count: 2; column-gap: 8px; margin-top: 24px; }
+        @media (min-width: 640px) { .masonry-grid { column-count: 3; } }
+        @media (min-width: 1024px) { .masonry-grid { column-count: 5; } }
+        .masonry-grid a { display: block; position: relative; margin-bottom: 8px; border-radius: 12px; overflow: hidden; text-decoration: none; box-shadow: 0 2px 6px rgba(0,0,0,0.2); transition: transform 0.2s ease; break-inside: avoid; }
+        .masonry-grid a:hover { transform: translateY(-4px); box-shadow: 0 6px 12px rgba(0,0,0,0.3); }
+        .card-body { position: relative; width: 100%; }
+        .card-body.small { height: 100px; }
+        .card-body.large { height: 200px; }
+        .card-body.tall { height: 150px; }
+        .masonry-grid img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.2s ease; }
+        .masonry-grid a:hover img { transform: scale(1.05); }
+        .masonry-grid .gradient-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.7), rgba(0,0,0,0.1)); }
+        .masonry-grid .play-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%) scale(0); color: #fff; font-size: 0.9rem; font-weight: 600; opacity: 0; transition: transform 0.2s ease, opacity 0.2s ease; z-index: 2; }
+        .masonry-grid a:hover .play-text { transform: translate(-50%,-50%) scale(1); opacity: 1; }
+        .masonry-grid h3 { position: absolute; bottom: 6px; left: 6px; padding: 6px; font-size: 0.8rem; z-index: 1; }
+        .zon-loader { column-count: 2; column-gap: 8px; margin-top: 24px; display: none; }
+        @media (min-width: 640px) { .zon-loader { column-count: 3; } }
+        @media (min-width: 1024px) { .zon-loader { column-count: 5; } }
+        .zon-loader a { display: block; margin-bottom: 8px; border-radius: 12px; overflow: hidden; background: #1e293b; break-inside: avoid; }
+        .zon-loader a.small { height: 100px; }
+        .zon-loader a.large { height: 200px; }
+        .zon-loader a.tall { height: 150px; }
+        .zon-loader a::after { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent); animation: shimmer 1s infinite; }
+        @keyframes shimmer { 100% { left: 100%; } }
+        .tab-buttons { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+        .tab-btn { padding: 8px 16px; font-size: 0.9rem; font-weight: 600; border-radius: 20px; cursor: pointer; background: #1e293b; color: #e2e8f0; border: none; transition: background 0.2s ease; }
+        .tab-btn.active { background: #f43f5e; color: #fff; }
+        .tab-btn:hover:not(.active) { background: #334155; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .categories .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        @media (min-width: 640px) { .categories .grid { grid-template-columns: repeat(3, 1fr); } }
+        @media (min-width: 768px) { .categories .grid { grid-template-columns: repeat(4, 1fr); } }
+        @media (min-width: 1024px) { .categories .grid { grid-template-columns: repeat(6, 1fr); } }
+        .categories a { display: flex; align-items: center; justify-content: center; padding: 12px; height: 80px; text-align: center; font-size: 0.9rem; font-weight: 600; color: #fff; background: #1e3a8a; border-radius: 10px; text-decoration: none; transition: transform 0.2s ease; }
+        .categories a:hover { transform: translateY(-3px); background: #3b82f6; }
+        footer { background: #1e293b; padding: 16px; text-align: center; border-top: 1px solid #334155; }
+        footer .container-zon { display: flex; flex-direction: column; gap: 12px; }
+        footer p { font-size: 0.8rem; color: #94a3b8; }
+        footer .footer-links { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+        footer .footer-links a { color: #60a5fa; text-decoration: none; font-weight: 500; }
+        footer .footer-links a:hover { color: #93c5fd; }
+        footer .social-icons { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+        footer .social-icons a { color: #e2e8f0; font-size: 1.1rem; }
+        footer .social-icons a:hover { color: #60a5fa; }
+        .mb-8 { margin-bottom: 32px; }
+    </style>
 </head>
-
 <body>
-    <!-- Header -->
     <header>
         <div class="container-zon">
             <div class="logo">
-                <img src="https://via.placeholder.com/40x40?text=Logo" alt="Zontal Logo">
+                <img src="https://via.placeholder.com/32x32?text=Logo" alt="Zontal Logo" loading="lazy">
                 <h1>Zontal</h1>
             </div>
             <nav>
-                <span class="nav-toggle">☰</span>
-                <ul class="nav-menu">
+                <ul>
                     <li><a href="#home">Home</a></li>
                     <li><a href="#categories">Categories</a></li>
                     <li><a href="#blogs">Blogs</a></li>
                     <li><a href="#about">About</a></li>
                 </ul>
-                <div class="search-container">
-                    <span class="search-icon">🔍</span>
-                    <form class="search-form">
-                        <input type="text" class="search-input" placeholder="Search games..." autocomplete="off">
-                    </form>
-                </div>
+                <span class="search-icon">🔍</span>
             </nav>
         </div>
     </header>
-
+    <div class="search-modal" id="searchModal">
+        <div class="search-box">
+            <span class="close-btn" id="closeSearch">×</span>
+            <input type="text" id="searchInput" placeholder="Search games...">
+            <div class="search-results" id="searchResults"></div>
+        </div>
+    </div>
     <div class="container-zon">
-        <!-- Main Content -->
-        <section class="game-iframe mb-8">
-            <div class="iframe-container">
-                <iframe src="https://classic.minecraft.net/" title="Imposter Battle Z Game" allow="fullscreen"></iframe>
-                <button class="fullscreen-btn">Full Screen</button>
-            </div>
-            <div class="game-title">
-                <img class="feature-image" src="https://via.placeholder.com/150x100?text=Imposter+Battle+Z"
-                    alt="Imposter Battle Z Featured Image">
-                <h2>Play Imposter Battle Z</h2>
-            </div>
-            <div class="game-description">
-                <h3>Description</h3>
-                <p>Jump into the action-packed world of Imposter Battle Z Dragon Warriors! Battle cunning imposters in a
-                    thrilling arcade adventure.</p>
-            </div>
-        </section>
-        <!-- Featured Games Slider -->
         <section class="featured-game mb-8">
             <h2>Featured Games</h2>
             <div class="slider">
                 <div class="slider-wrapper">
-                    <!-- Sample Featured Games -->
                     <div class="slide">
                         <a href="game.html">
-                            <img src="https://via.placeholder.com/400x300?text=Imposter+Battle+Z"
-                                alt="Imposter Battle Z Dragon Warriors">
+                            <img src="https://images.unsplash.com/photo-1616716645147-290c5d2500a5?auto=format&fit=crop&w=400&q=75" alt="Imposter Battle Z" loading="lazy" srcset="https://images.unsplash.com/photo-1616716645147-290c5d2500a5?auto=format&fit=crop&w=200&q=75 200w, https://images.unsplash.com/photo-1616716645147-290c5d2500a5?auto=format&fit=crop&w=400&q=75 400w" sizes="(max-width: 600px) 200px, 400px">
                             <div class="gradient-overlay"></div>
-                            <div class="play-text">Play Now</div>
-                            <h3>Imposter Battle Z Dragon Warriors</h3>
+                            <div class="play-text">Play</div>
+                            <h3>Imposter Battle Z</h3>
                         </a>
                     </div>
                     <div class="slide">
-                        <a href="#game2">
-                            <img src="https://via.placeholder.com/400x300?text=Color+Ball+Smack" alt="Color Ball Smack">
+                        <a href="game-2.html">
+                            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=400&q=75" alt="Color Ball Smack" loading="lazy" srcset="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=200&q=75 200w, https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=400&q=75 400w" sizes="(max-width: 600px) 200px, 400px">
                             <div class="gradient-overlay"></div>
-                            <div class="play-text">Play Now</div>
+                            <div class="play-text">Play</div>
                             <h3>Color Ball Smack</h3>
                         </a>
                     </div>
                     <div class="slide">
-                        <a href="#game3">
-                            <img src="https://via.placeholder.com/400x300?text=Space+Shooter" alt="Space Shooter">
+                        <a href="game-3.html">
+                            <img src="https://images.unsplash.com/photo-1552820728-8b83bb6b773f?auto=format&fit=crop&w=400&q=75" alt="Space Shooter" loading="lazy" srcset="https://images.unsplash.com/photo-1552820728-8b83bb6b773f?auto=format&fit=crop&w=200&q=75 200w, https://images.unsplash.com/photo-1552820728-8b83bb6b773f?auto=format&fit=crop&w=400&q=75 400w" sizes="(max-width: 600px) 200px, 400px">
                             <div class="gradient-overlay"></div>
-                            <div class="play-text">Play Now</div>
+                            <div class="play-text">Play</div>
                             <h3>Space Shooter</h3>
                         </a>
                     </div>
                 </div>
             </div>
+            <div class="slider-nav">
+                <button class="prev">←</button>
+                <button class="next">→</button>
+            </div>
         </section>
-
-        <!-- All Games -->
         <section class="all-games mb-8">
             <h2>All Games</h2>
             <div id="zon_games" class="masonry-grid">
-                <!-- No Results Message -->
-                <div class="no-results" style="display: none;">
-                    <p>No games found matching your search.</p>
-                </div>
-                <!-- Sample Games (15 games for initial load) -->
-                <a href="#game1">
+                <a href="game-1.html" class="game-card" data-name="Game 1">
                     <div class="card-body small">
-                        <img src="https://via.placeholder.com/200x120?text=Game+1" alt="Game 1">
+                        <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75" alt="Game 1" loading="lazy" srcset="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
                         <div class="gradient-overlay"></div>
-                        <div class="play-text">Play Now</div>
+                        <div class="play-text">Play</div>
                         <h3>Game 1</h3>
                     </div>
                 </a>
-                <a href="#game2">
+                <a href="game-2.html" class="game-card" data-name="Game 2">
                     <div class="card-body small">
-                        <img src="https://via.placeholder.com/200x120?text=Game+2" alt="Game 2">
+                        <img src="https://images.unsplash.com/photo-1553481187-be93c21490a9?auto=format&fit=crop&w=200&q=75" alt="Game 2" loading="lazy" srcset="https://images.unsplash.com/photo-1553481187-be93c21490a9?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1553481187-be93c21490a9?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
                         <div class="gradient-overlay"></div>
-                        <div class="play-text">Play Now</div>
+                        <div class="play-text">Play</div>
                         <h3>Game 2</h3>
                     </div>
                 </a>
-                <a href="#game3">
+                <a href="game-3.html" class="game-card" data-name="Game 3">
                     <div class="card-body large">
-                        <img src="https://via.placeholder.com/200x240?text=Game+3" alt="Game 3">
+                        <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=200&q=75" alt="Game 3" loading="lazy" srcset="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
                         <div class="gradient-overlay"></div>
-                        <div class="play-text">Play Now</div>
+                        <div class="play-text">Play</div>
                         <h3>Game 3</h3>
-                    </div>
-                </a>
-                <a href="#game4">
-                    <div class="card-body small">
-                        <img src="https://via.placeholder.com/200x120?text=Game+4" alt="Game 4">
-                        <div class="gradient-overlay"></div>
-                        <div class="play-text">Play Now</div>
-                        <h3>Game 4</h3>
-                    </div>
-                </a>
-                <a href="#game5">
-                    <div class="card-body tall">
-                        <img src="https://via.placeholder.com/200x180?text=Game+5" alt="Game 5">
-                        <div class="gradient-overlay"></div>
-                        <div class="play-text">Play Now</div>
-                        <h3>Game 5</h3>
-                    </div>
-                </a>
-                <a href="#game6">
-                    <div class="card-body small">
-                        <img src="https://via.placeholder.com/200x120?text=Game+6" alt="Game 6">
-                        <div class="gradient-overlay"></div>
-                        <div class="play-text">Play Now</div>
-                        <h3>Game 6</h3>
-                    </div>
-                </a>
-                <a href="#game7">
-                    <div class="card-body small">
-                        <img src="https://via.placeholder.com/200x120?text=Game+7" alt="Game 7">
-                        <div class="gradient-overlay"></div>
-                        <div class="play-text">Play Now</div>
-                        <h3>Game 7</h3>
-                    </div>
-                </a>
-                <a href="#game8">
-                    <div class="card-body large">
-                        <img src="https://via.placeholder.com/200x240?text=Game+8" alt="Game 8">
-                        <div class="gradient-overlay"></div>
-                        <div class="play-text">Play Now</div>
-                        <h3>Game 8</h3>
-                    </div>
-                </a>
-                <a href="#game9">
-                    <div class="card-body small">
-                        <img src="https://via.placeholder.com/200x120?text=Game+9" alt="Game 9">
-                        <div class="gradient-overlay"></div>
-                        <div class="play-text">Play Now</div>
-                        <h3>Game 9</h3>
-                    </div>
-                </a>
-                <a href="#game10">
-                    <div class="card-body tall">
-                        <img src="https://via.placeholder.com/200x180?text=Game+10" alt="Game 10">
-                        <div class="gradient-overlay"></div>
-                        <div class="play-text">Play Now</div>
-                        <h3>Game 10</h3>
-                    </div>
-                </a>
-                <a href="#game11">
-                    <div class="card-body small">
-                        <img src="https://via.placeholder.com/200x120?text=Game+11" alt="Game 11">
-                        <div class="gradient-overlay"></div>
-                        <div class="play-text">Play Now</div>
-                        <h3>Game 11</h3>
-                    </div>
-                </a>
-                <a href="#game12">
-                    <div class="card-body small">
-                        <img src="https://via.placeholder.com/200x120?text=Game+12" alt="Game 12">
-                        <div class="gradient-overlay"></div>
-                        <div class="play-text">Play Now</div>
-                        <h3>Game 12</h3>
-                    </div>
-                </a>
-                <a href="#game13">
-                    <div class="card-body large">
-                        <img src="https://via.placeholder.com/200x240?text=Game+13" alt="Game 13">
-                        <div class="gradient-overlay"></div>
-                        <div class="play-text">Play Now</div>
-                        <h3>Game 13</h3>
-                    </div>
-                </a>
-                <a href="#game14">
-                    <div class="card-body small">
-                        <img src="https://via.placeholder.com/200x120?text=Game+14" alt="Game 14">
-                        <div class="gradient-overlay"></div>
-                        <div class="play-text">Play Now</div>
-                        <h3>Game 14</h3>
-                    </div>
-                </a>
-                <a href="#game15">
-                    <div class="card-body tall">
-                        <img src="https://via.placeholder.com/200x180?text=Game+15" alt="Game 15">
-                        <div class="gradient-overlay"></div>
-                        <div class="play-text">Play Now</div>
-                        <h3>Game 15</h3>
                     </div>
                 </a>
             </div>
             <div class="zon-loader">
-                <a class="small"></a>
-                <a class="large"></a>
-                <a class="tall"></a>
-                <a class="small"></a>
-                <a class="large"></a>
+                <a class="small"></a><a class="large"></a><a class="tall"></a>
             </div>
         </section>
-
-        <!-- Category Tabs -->
         <section class="category-tabs mb-8">
             <h2>Browse by Category</h2>
             <div class="tabs">
                 <div class="tab-buttons">
                     <button class="tab-btn active" data-tab="action">Action</button>
                     <button class="tab-btn" data-tab="shooting">Shooting</button>
-                    <button class="tab-btn" data-tab="puzzles">Puzzles</button>
                 </div>
-
-                <!-- Action Tab -->
                 <div class="tab-content active" id="action">
                     <div class="masonry-grid">
-                        <a href="#action1">
+                        <a href="game-action1.html" class="game-card" data-name="Action Game 1">
                             <div class="card-body small">
-                                <img src="https://via.placeholder.com/200x120?text=Action+Game+1" alt="Action Game 1">
+                                <img src="https://images.unsplash.com/photo-1616716645147-290c5d2500a5?auto=format&fit=crop&w=200&q=75" alt="Action Game 1" loading="lazy" srcset="https://images.unsplash.com/photo-1616716645147-290c5d2500a5?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1616716645147-290c5d2500a5?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
                                 <div class="gradient-overlay"></div>
-                                <div class="play-text">Play Now</div>
+                                <div class="play-text">Play</div>
                                 <h3>Action Game 1</h3>
                             </div>
                         </a>
-                        <a href="#action2">
-                            <div class="card-body large">
-                                <img src="https://via.placeholder.com/200x240?text=Action+Game+2" alt="Action Game 2">
-                                <div class="gradient-overlay"></div>
-                                <div class="play-text">Play Now</div>
-                                <h3>Action Game 2</h3>
-                            </div>
-                        </a>
-                        <a href="#action3">
-                            <div class="card-body tall">
-                                <img src="https://via.placeholder.com/200x180?text=Action+Game+3" alt="Action Game 3">
-                                <div class="gradient-overlay"></div>
-                                <div class="play-text">Play Now</div>
-                                <h3>Action Game 3</h3>
-                            </div>
-                        </a>
                     </div>
                 </div>
-
-                <!-- Shooting Tab -->
                 <div class="tab-content" id="shooting">
                     <div class="masonry-grid">
-                        <a href="#shooting1">
+                        <a href="game-shooting1.html" class="game-card" data-name="Shooting Game 1">
                             <div class="card-body small">
-                                <img src="https://via.placeholder.com/200x120?text=Shooting+Game+1"
-                                    alt="Shooting Game 1">
+                                <img src="https://images.unsplash.com/photo-1552820728-8b83bb6b773f?auto=format&fit=crop&w=200&q=75" alt="Shooting Game 1" loading="lazy" srcset="https://images.unsplash.com/photo-1552820728-8b83bb6b773f?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1552820728-8b83bb6b773f?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
                                 <div class="gradient-overlay"></div>
-                                <div class="play-text">Play Now</div>
+                                <div class="play-text">Play</div>
                                 <h3>Shooting Game 1</h3>
-                            </div>
-                        </a>
-                        <a href="#shooting2">
-                            <div class="card-body large">
-                                <img src="https://via.placeholder.com/200x240?text=Shooting+Game+2"
-                                    alt="Shooting Game 2">
-                                <div class="gradient-overlay"></div>
-                                <div class="play-text">Play Now</div>
-                                <h3>Shooting Game 2</h3>
-                            </div>
-                        </a>
-                        <a href="#shooting3">
-                            <div class="card-body tall">
-                                <img src="https://via.placeholder.com/200x180?text=Shooting+Game+3"
-                                    alt="Shooting Game 3">
-                                <div class="gradient-overlay"></div>
-                                <div class="play-text">Play Now</div>
-                                <h3>Shooting Game 3</h3>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Puzzles Tab -->
-                <div class="tab-content" id="puzzles">
-                    <div class="masonry-grid">
-                        <a href="#puzzle1">
-                            <div class="card-body small">
-                                <img src="https://via.placeholder.com/200x120?text=Puzzle+Game+1" alt="Puzzle Game 1">
-                                <div class="gradient-overlay"></div>
-                                <div class="play-text">Play Now</div>
-                                <h3>Puzzle Game 1</h3>
-                            </div>
-                        </a>
-                        <a href="#puzzle2">
-                            <div class="card-body large">
-                                <img src="https://via.placeholder.com/200x240?text=Puzzle+Game+2" alt="Puzzle Game 2">
-                                <div class="gradient-overlay"></div>
-                                <div class="play-text">Play Now</div>
-                                <h3>Puzzle Game 2</h3>
-                            </div>
-                        </a>
-                        <a href="#puzzle3">
-                            <div class="card-body tall">
-                                <img src="https://via.placeholder.com/200x180?text=Puzzle+Game+3" alt="Puzzle Game 3">
-                                <div class="gradient-overlay"></div>
-                                <div class="play-text">Play Now</div>
-                                <h3>Puzzle Game 3</h3>
                             </div>
                         </a>
                     </div>
                 </div>
             </div>
         </section>
-    </div>
-    </div>
-
-    <!-- Categories Grid -->
-    <section class="categories mb-8">
-        <div class="container-zon">
-            <h2>Explore Categories</h2>
-            <div class="grid">
-                <a href="#adventure"><span>Adventure</span></a>
-                <a href="#shooting"><span>Shooting</span></a>
-                <a href="#3d"><span>3D</span></a>
-                <a href="#sports"><span>Sports</span></a>
-                <a href="#arcade"><span>Arcade</span></a>
-                <a href="#hypercasual"><span>Hypercasual</span></a>
-                <a href="#puzzles"><span>Puzzles</span></a>
-                <a href="#clicker"><span>Clicker</span></a>
-                <a href="#girls"><span>Girls</span></a>
+        <section class="categories mb-8">
+            <div class="container-zon">
+                <h2>Explore Categories</h2>
+                <div class="grid">
+                    <a href="#adventure"><span>Adventure</span></a>
+                    <a href="#shooting"><span>Shooting</span></a>
+                </div>
             </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
+        </section>
+    </div>
     <footer>
         <div class="container-zon">
             <div class="footer-links">
                 <a href="#privacy">Privacy Policy</a>
-                <a href="#terms">Terms of Service</a>
-                <a href="#contact">Contact Us</a>
+                <a href="#terms">Terms</a>
             </div>
             <div class="social-icons">
                 <a href="#facebook">📘</a>
                 <a href="#twitter">🐦</a>
-                <a href="#instagram">📸</a>
             </div>
-            <p>© 2025 Zontal. All rights reserved.</p>
+            <p>© 2025 Zontal</p>
         </div>
     </footer>
+    <script defer>
+        const sliderWrapper = document.querySelector('.slider-wrapper');
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.querySelector('.prev');
+        const nextBtn = document.querySelector('.next');
+        let currentIndex = 0;
 
-    <script src="script.js"></script>
+        function updateSlider() {
+            const isDesktop = window.innerWidth >= 1024;
+            const slidesToShow = isDesktop ? 3 : 1;
+            sliderWrapper.style.transform = `translateX(-${currentIndex * 100 / slidesToShow}%)`;
+        }
+
+        function nextSlide() { if (currentIndex < slides.length - 1) currentIndex++; updateSlider(); }
+        function prevSlide() { if (currentIndex > 0) currentIndex--; updateSlider(); }
+
+        nextBtn.addEventListener('click', nextSlide);
+        prevBtn.addEventListener('click', prevSlide);
+        setInterval(nextSlide, 4000);
+
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById(btn.dataset.tab).classList.add('active');
+            });
+        });
+
+        const searchModal = document.getElementById('searchModal');
+        const searchInput = document.getElementById('searchInput');
+        const searchResults = document.getElementById('searchResults');
+        const searchIcon = document.querySelector('.search-icon');
+        const closeSearch = document.getElementById('closeSearch');
+
+        searchIcon.addEventListener('click', () => searchModal.classList.add('active'));
+        closeSearch.addEventListener('click', () => { searchModal.classList.remove('active'); searchInput.value = ''; searchResults.innerHTML = ''; });
+        searchInput.addEventListener('input', () => {
+            const query = searchInput.value.toLowerCase();
+            searchResults.innerHTML = '';
+            document.querySelectorAll('.game-card').forEach(card => {
+                if (card.dataset.name.toLowerCase().includes(query) && query) {
+                    const a = document.createElement('a');
+                    a.href = card.href;
+                    a.textContent = card.dataset.name;
+                    searchResults.appendChild(a);
+                }
+            });
+        });
+    </script>
 </body>
-
 </html>
