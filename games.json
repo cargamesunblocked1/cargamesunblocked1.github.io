@@ -1,10 +1,137 @@
-{
-  "games": [
-    {"name": "Imposter Battle Z", "url": "game.html"},
-    {"name": "Color Ball Smack", "url": "game-2.html"},
-    {"name": "Space Shooter", "url": "game-3.html"},
-    {"name": "Cyber Dash", "url": "game-4.html"},
-    {"name": "Pixel Quest", "url": "game-5.html"}
-  
-  ]
-}
+[
+    {
+        "id": 1,
+        "name": "Game 1",
+        "category": "action",
+        "image": "https://images.pexels.com/photos/1632790/pexels-photo-1632790.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop",
+        "url": "game-1.html",
+        "featured": false,
+        "onHomepage": true
+    },
+    {
+        "id": 2,
+        "name": "Game 2",
+        "category": "racing",
+        "image": "https://images.pexels.com/photos/442576/pexels-photo-442576.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop",
+        "url": "game-2.html",
+        "featured": false,
+        "onHomepage": true
+    },
+    {
+        "id": 3,
+        "name": "Game 3",
+        "category": "adventure",
+        "image": "https://images.pexels.com/photos/373543/pexels-photo-373543.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop",
+        "url": "game-3.html",
+        "featured": false,
+        "onHomepage": true
+    },
+    {
+        "id": 4,
+        "name": "Cyber Dash",
+        "category": "action",
+        "image": "https://images.pexels.com/photos/3165335/pexels-photo-3165335.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop",
+        "url": "game-4.html",
+        "featured": true,
+        "onHomepage": true
+    },
+    {
+        "id": 5,
+        "name": "Pixel Quest",
+        "category": "adventure",
+        "image": "https://images.pexels.com/photos/777676/pexels-photo-777676.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop",
+        "url": "game-5.html",
+        "featured": false,
+        "onHomepage": true
+    },
+    {
+        "id": 6,
+        "name": "Starstrike",
+        "category": "shooting",
+        "image": "https://images.pexels.com/photos/1630778/pexels-photo-1630778.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop",
+        "url": "game-6.html",
+        "featured": false,
+        "onHomepage": true
+    },
+    {
+        "id": 7,
+        "name": "Neon Racer",
+        "category": "racing",
+        "image": "https://images.pexels.com/photos/1630779/pexels-photo-1630779.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop",
+        "url": "game-7.html",
+        "featured": true,
+        "onHomepage": true
+    },
+    {
+        "id": 8,
+        "name": "Galactic Escape",
+        "category": "adventure",
+        "image": "https://images.pexels.com/photos/1630777/pexels-photo-1630777.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop",
+        "url": "game-8.html",
+        "featured": false,
+        "onHomepage": true
+    },
+    {
+        "id": 9,
+        "name": "Frosty Run",
+        "category": "platform",
+        "image": "https://images.pexels.com/photos/1630776/pexels-photo-1630776.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop",
+        "url": "game-9.html",
+        "featured": false,
+        "onHomepage": true
+    },
+    {
+        "id": 10,
+        "name": "Blaze Arena",
+        "category": "multiplayer",
+        "image": "https://images.pexels.com/photos/1630775/pexels-photo-1630775.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop",
+        "url": "game-10.html",
+        "featured": true,
+        "onHomepage": true
+    },
+    {
+        "id": 11,
+        "name": "Mystic Towers",
+        "category": "puzzle",
+        "image": "https://images.pexels.com/photos/1630774/pexels-photo-1630774.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop",
+        "url": "game-11.html",
+        "featured": false,
+        "onHomepage": true
+    },
+    {
+        "id": 12,
+        "name": "Thunder Clash",
+        "category": "multiplayer",
+        "image": "https://images.pexels.com/photos/1630773/pexels-photo-1630773.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop",
+        "url": "game-12.html",
+        "featured": true,
+        "onHomepage": true
+    },
+    {
+        "id": 13,
+        "name": "Echo Runner",
+        "category": "platform",
+        "image": "https://images.pexels.com/photos/1630772/pexels-photo-1630772.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop",
+        "url": "game-13.html",
+        "featured": true,
+        "onHomepage": true
+    },
+    {
+        "id": 14,
+        "name": "Sky Guardians",
+        "category": "shooting",
+        "image": "https://images.pexels.com/photos/1630771/pexels-photo-1630771.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop",
+        "url": "game-14.html",
+        "featured": false,
+        "onHomepage": false
+    },
+    {
+        "id": 15,
+        "name": "Drift Legends",
+        "category": "racing",
+        "image": "https://images.pexels.com/photos/1630770/pexels-photo-1630770.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop",
+        "url": "game-15.html",
+        "featured": false,
+        "onHomepage": false
+    }
+]
