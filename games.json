@@ -1,0 +1,10 @@
+{
+  "games": [
+    {"name": "Imposter Battle Z", "url": "game.html"},
+    {"name": "Color Ball Smack", "url": "game-2.html"},
+    {"name": "Space Shooter", "url": "game-3.html"},
+    {"name": "Cyber Dash", "url": "game-4.html"},
+    {"name": "Pixel Quest", "url": "game-5.html"}
+  
+  ]
+}
