@@ -8,92 +8,246 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: system-ui, -apple-system, sans-serif; line-height: 1.6; background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); color: #e2e8f0; overflow-x: hidden; }
-        .container-zon { max-width: 1320px; margin: 0 auto; padding: 16px; }
-        h2 { font-size: 2rem; font-weight: 700; color: #f8fafc; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.05em; }
+        .container-zon { max-width: 1320px; margin: 0 auto; padding: 1rem; }
+        h2 { font-size: 2rem; font-weight: 700; color: #f8fafc; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.05em; }
         h3 { font-size: 0.9rem; font-weight: 600; color: #f8fafc; }
-        header { background: #1e3a8a; padding: 12px; position: sticky; top: 0; z-index: 1000; }
-        header .container-zon { display: flex; justify-content: space-between; align-items: center; }
-        header .logo { display: flex; align-items: center; gap: 8px; }
-        header .logo img { height: 32px; width: 32px; border-radius: 50%; object-fit: cover; }
-        header h1 { font-size: 1.5rem; font-weight: 700; color: #fff; }
-        header nav { display: flex; align-items: center; gap: 16px; }
-        header nav ul { display: flex; gap: 16px; }
-        header nav a { color: #e2e8f0; text-decoration: none; font-weight: 600; font-size: 0.9rem; padding: 6px 12px; border-radius: 20px; position: relative; }
-        header nav a::after { content: ''; position: absolute; width: 0; height: 2px; bottom: 4px; left: 50%; background: #fff; transition: width 0.2s ease; }
-        header nav a:hover::after { width: 50%; left: 25%; }
+
+        /* Enhanced Header Styles */
+        header { 
+            background: linear-gradient(135deg, rgba(30, 58, 138, 0.9), rgba(15, 23, 42, 0.9)); 
+            backdrop-filter: blur(10px); 
+            -webkit-backdrop-filter: blur(10px); 
+            padding: 0.75rem; 
+            position: sticky; 
+            top: 0; 
+            z-index: 1000; 
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); 
+        }
+        header .container-zon { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; }
+        header .logo { display: flex; align-items: center; gap: 0.5rem; transition: transform 0.2s ease; }
+        header .logo:hover { transform: scale(1.05); }
+        header .logo img { 
+            height: 2.5rem; 
+            width: 2.5rem; 
+            border-radius: 50%; 
+            object-fit: cover; 
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3); 
+            transition: box-shadow 0.2s ease; 
+        }
+        header .logo:hover img { box-shadow: 0 4px 12px rgba(244, 63, 94, 0.4); }
+        header h1 { font-size: 1.75rem; font-weight: 800; color: #fff; letter-spacing: 0.03em; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); }
+        
+        /* Nav Styles */
+        header nav { display: flex; align-items: center; gap: 1rem; }
+        header nav ul { display: flex; gap: 1rem; flex-wrap: wrap; list-style: none; }
+        header nav a { 
+            color: #e2e8f0; 
+            text-decoration: none; 
+            font-weight: 600; 
+            font-size: 0.95rem; 
+            padding: 0.5rem 1rem; 
+            border-radius: 20px; 
+            position: relative; 
+            transition: color 0.2s ease; 
+        }
+        header nav a::after { 
+            content: ''; 
+            position: absolute; 
+            width: 0; 
+            height: 2px; 
+            bottom: 0.25rem; 
+            left: 50%; 
+            background: #f43f5e; 
+            transition: width 0.3s ease, left 0.3s ease, box-shadow 0.3s ease; 
+        }
+        header nav a:hover::after { 
+            width: 50%; 
+            left: 25%; 
+            box-shadow: 0 0 8px rgba(244, 63, 94, 0.5); 
+        }
         header nav a:hover { color: #fff; }
-        header .search-icon { font-size: 1.1rem; color: #e2e8f0; cursor: pointer; }
-        .search-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center; z-index: 2000; opacity: 0; visibility: hidden; transition: opacity 0.2s ease; }
-        .search-modal.active { opacity: 1; visibility: visible; }
-        .search-modal .search-box { background: #1e293b; padding: 16px; border-radius: 12px; width: 90%; max-width: 500px; position: relative; }
-        .search-modal .close-btn { position: absolute; top: 12px; right: 12px; font-size: 1.3rem; color: #e2e8f0; cursor: pointer; }
-        .search-modal .close-btn:hover { color: #f43f5e; }
-        .search-modal input { width: 100%; padding: 10px; font-size: 0.9rem; background: #334155; border: none; border-radius: 6px; color: #e2e8f0; outline: none; margin-bottom: 12px; }
-        .search-modal .search-results { max-height: 250px; overflow-y: auto; }
-        .search-modal .search-results a { display: block; padding: 10px; color: #e2e8f0; text-decoration: none; border-bottom: 1px solid #334155; }
-        .search-modal .search-results a:hover { background: #334155; }
-        .featured-game { margin-bottom: 32px; }
-        .slider { width: 100%; height: 250px; overflow: hidden; border-radius: 16px; }
+
+        /* Nav Toggle Styles */
+        .nav-toggle { 
+            display: none; 
+            width: 1.5rem; 
+            height: 1.5rem; 
+            position: relative; 
+            cursor: pointer; 
+            margin-right: 1rem; /* Spacing from search bar on smallest screens */
+        }
+        .nav-toggle span, .nav-toggle span::before, .nav-toggle span::after { 
+            background: #e2e8f0; 
+            height: 2px; 
+            width: 100%; 
+            position: absolute; 
+            left: 0; 
+            transition: all 0.3s ease; 
+        }
+        .nav-toggle span { top: 50%; transform: translateY(-50%); }
+        .nav-toggle span::before { content: ''; top: -8px; }
+        .nav-toggle span::after { content: ''; top: 8px; }
+        .nav-toggle.active span { background: transparent; }
+        .nav-toggle.active span::before { transform: rotate(45deg); top: 0; background: #f43f5e; }
+        .nav-toggle.active span::after { transform: rotate(-45deg); top: 0; background: #f43f5e; }
+
+        /* Inline Search Bar Styles */
+        .search-bar { 
+            position: relative; 
+            width: 100%; 
+            max-width: 300px; 
+            background: rgba(15, 23, 42, 0.7); 
+            border-radius: 0.5rem; 
+            backdrop-filter: blur(5px); 
+            -webkit-backdrop-filter: blur(5px); 
+            border: 1px solid rgba(255, 255, 255, 0.1); 
+        }
+        .search-bar input { 
+            width: 100%; 
+            padding: 0.5rem 2.5rem 0.5rem 1rem; 
+            font-size: 0.9rem; 
+            background: transparent; 
+            border: none; 
+            border-radius: 0.5rem; 
+            color: #e2e8f0; 
+            outline: none; 
+            transition: box-shadow 0.3s ease; 
+        }
+        .search-bar input:focus { 
+            box-shadow: inset 0 0 8px rgba(244, 63, 94, 0.3); 
+        }
+        .search-bar input::placeholder { color: #94a3b8; font-weight: 500; }
+        .search-bar .search-icon { 
+            position: absolute; 
+            right: 0.75rem; 
+            top: 50%; 
+            transform: translateY(-50%); 
+            font-size: 1rem; 
+            color: #94a3b8; 
+            cursor: pointer; 
+            transition: color 0.2s ease, transform 0.2s ease; 
+        }
+        .search-bar .search-icon:hover { 
+            color: #f43f5e; 
+            transform: translateY(-50%) scale(1.1); 
+        }
+        .search-bar .search-results { 
+            position: absolute; 
+            top: 100%; 
+            left: 0; 
+            right: 0; 
+            background: #1e293b; 
+            border-radius: 0.5rem; 
+            border: 1px solid #334155; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3); 
+            max-height: 200px; 
+            overflow-y: auto; 
+            z-index: 2000; 
+            display: none; 
+            scrollbar-width: thin; 
+            scrollbar-color: #f43f5e #334155; 
+        }
+        .search-bar .search-results.active { display: block; }
+        .search-bar .search-results::-webkit-scrollbar { width: 8px; }
+        .search-bar .search-results::-webkit-scrollbar-track { background: #334155; border-radius: 4px; }
+        .search-bar .search-results::-webkit-scrollbar-thumb { background: #f43f5e; border-radius: 4px; }
+        .search-bar .search-results a { 
+            display: block; 
+            padding: 0.5rem 1rem; 
+            color: #e2e8f0; 
+            text-decoration: none; 
+            border-bottom: 1px solid #334155; 
+            transition: background 0.2s ease; 
+        }
+        .search-bar .search-results a:last-child { border-bottom: none; }
+        .search-bar .search-results a:hover { background: #3b82f6; }
+
+        .featured-game { margin-bottom: 2rem; }
+        .slider { width: 100%; height: 15rem; overflow: hidden; border-radius: 1rem; }
         .slider-wrapper { display: flex; height: 100%; transition: transform 0.3s ease; }
         .slide { flex: 0 0 100%; height: 100%; }
+        @media (min-width: 640px) { .slide { flex: 0 0 50%; } }
         @media (min-width: 1024px) { .slide { flex: 0 0 33.333%; } }
-        .slide a { display: block; position: relative; width: 100%; height: 100%; border-radius: 16px; overflow: hidden; text-decoration: none; box-shadow: 0 4px 8px rgba(0,0,0,0.2); transition: transform 0.2s ease; }
-        .slide a:hover { transform: translateY(-4px); box-shadow: 0 8px 16px rgba(0,0,0,0.3); }
+        .slide a { display: block; position: relative; width: 100%; height: 100%; border-radius: 1rem; overflow: hidden; text-decoration: none; box-shadow: 0 4px 8px rgba(0,0,0,0.2); transition: transform 0.2s ease; }
+        .slide a:hover { transform: translateY(-0.25rem); box-shadow: 0 8px 16px rgba(0,0,0,0.3); }
         .slide img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.2s ease; }
         .slide a:hover img { transform: scale(1.05); }
         .slide .gradient-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.7), rgba(0,0,0,0.1)); }
-        .slide .play-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%) scale(0); color: #fff; font-size: 1rem; font-weight: 600; opacity: 0; transition: transform 0.2s ease, opacity 0.2s ease; z-index: 2; }
+        .slide .play-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%) scale(0); color: #fff; font-size: 0.9rem; font-weight: 600; opacity: 0; transition: transform 0.2s ease, opacity 0.2s ease; z-index: 2; }
         .slide a:hover .play-text { transform: translate(-50%,-50%) scale(1); opacity: 1; }
-        .slide h3 { position: absolute; bottom: 8px; left: 8px; padding: 6px; font-size: 0.9rem; z-index: 1; }
+        .slide h3 { position: absolute; bottom: 0.5rem; left: 0.5rem; padding: 0.375rem; font-size: 0.9rem; z-index: 1; }
         .slider-nav { position: absolute; top: 50%; width: 100%; display: flex; justify-content: space-between; transform: translateY(-50%); z-index: 3; }
-        .slider-nav button { background: #f43f5e; color: #fff; border: none; padding: 10px; cursor: pointer; font-size: 1rem; border-radius: 50%; transition: background 0.2s ease; }
+        .slider-nav button { background: #f43f5e; color: #fff; border: none; padding: 0.625rem; cursor: pointer; font-size: 1rem; border-radius: 50%; transition: background 0.2s ease; }
         .slider-nav button:hover { background: #e11d48; }
-        .masonry-grid { column-count: 2; column-gap: 8px; margin-top: 24px; }
-        @media (min-width: 640px) { .masonry-grid { column-count: 3; } }
+        .masonry-grid { column-count: 2; column-gap: 0.5rem; margin-top: 1.5rem; }
+        @media (max-width: 479px) { .masonry-grid { column-count: 1; } }
+        @media (min-width: 480px) and (max-width: 767px) { .masonry-grid { column-count: 2; } }
+        @media (min-width: 768px) and (max-width: 1023px) { .masonry-grid { column-count: 3; } }
         @media (min-width: 1024px) { .masonry-grid { column-count: 5; } }
-        .masonry-grid a { display: block; position: relative; margin-bottom: 8px; border-radius: 12px; overflow: hidden; text-decoration: none; box-shadow: 0 2px 6px rgba(0,0,0,0.2); transition: transform 0.2s ease; break-inside: avoid; }
-        .masonry-grid a:hover { transform: translateY(-4px); box-shadow: 0 6px 12px rgba(0,0,0,0.3); }
+        .masonry-grid a { display: block; position: relative; margin-bottom: 0.5rem; border-radius: 0.75rem; overflow: hidden; text-decoration: none; box-shadow: 0 2px 6px rgba(0,0,0,0.2); transition: transform 0.2s ease; break-inside: avoid; }
+        .masonry-grid a:hover { transform: translateY(-0.25rem); box-shadow: 0 6px 12px rgba(0,0,0,0.3); }
         .card-body { position: relative; width: 100%; }
-        .card-body.small { height: 100px; }
-        .card-body.large { height: 200px; }
-        .card-body.tall { height: 150px; }
+        .card-body.small { height: 6.25rem; }
+        .card-body.large { height: 12.5rem; }
+        .card-body.tall { height: 9.375rem; }
         .masonry-grid img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.2s ease; }
         .masonry-grid a:hover img { transform: scale(1.05); }
         .masonry-grid .gradient-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.7), rgba(0,0,0,0.1)); }
         .masonry-grid .play-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%) scale(0); color: #fff; font-size: 0.9rem; font-weight: 600; opacity: 0; transition: transform 0.2s ease, opacity 0.2s ease; z-index: 2; }
         .masonry-grid a:hover .play-text { transform: translate(-50%,-50%) scale(1); opacity: 1; }
-        .masonry-grid h3 { position: absolute; bottom: 6px; left: 6px; padding: 6px; font-size: 0.8rem; z-index: 1; }
-        .zon-loader { column-count: 2; column-gap: 8px; margin-top: 24px; display: none; }
-        @media (min-width: 640px) { .zon-loader { column-count: 3; } }
+        .masonry-grid h3 { position: absolute; bottom: 0.375rem; left: 0.375rem; padding: 0.375rem; font-size: 0.8rem; z-index: 1; }
+        .zon-loader { column-count: 2; column-gap: 0.5rem; margin-top: 1.5rem; display: none; }
+        @media (max-width: 479px) { .zon-loader { column-count: 1; } }
+        @media (min-width: 480px) and (max-width: 767px) { .zon-loader { column-count: 2; } }
+        @media (min-width: 768px) and (max-width: 1023px) { .zon-loader { column-count: 3; } }
         @media (min-width: 1024px) { .zon-loader { column-count: 5; } }
-        .zon-loader a { display: block; margin-bottom: 8px; border-radius: 12px; overflow: hidden; background: #1e293b; break-inside: avoid; }
-        .zon-loader a.small { height: 100px; }
-        .zon-loader a.large { height: 200px; }
-        .zon-loader a.tall { height: 150px; }
+        .zon-loader a { display: block; margin-bottom: 0.5rem; border-radius: 0.75rem; overflow: hidden; background: #1e293b; break-inside: avoid; }
+        .zon-loader a.small { height: 6.25rem; }
+        .zon-loader a.large { height: 12.5rem; }
+        .zon-loader a.tall { height: 9.375rem; }
         .zon-loader a::after { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent); animation: shimmer 1s infinite; }
         @keyframes shimmer { 100% { left: 100%; } }
-        .tab-buttons { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
-        .tab-btn { padding: 8px 16px; font-size: 0.9rem; font-weight: 600; border-radius: 20px; cursor: pointer; background: #1e293b; color: #e2e8f0; border: none; transition: background 0.2s ease; }
+        .tab-buttons { display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; }
+        .tab-btn { padding: 0.5rem 1rem; font-size: 0.9rem; font-weight: 600; border-radius: 20px; cursor: pointer; background: #1e293b; color: #e2e8f0; border: none; transition: background 0.2s ease; }
         .tab-btn.active { background: #f43f5e; color: #fff; }
         .tab-btn:hover:not(.active) { background: #334155; }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
-        .categories .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-        @media (min-width: 640px) { .categories .grid { grid-template-columns: repeat(3, 1fr); } }
+        .categories .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
+        @media (min-width: 480px) { .categories .grid { grid-template-columns: repeat(3, 1fr); } }
         @media (min-width: 768px) { .categories .grid { grid-template-columns: repeat(4, 1fr); } }
         @media (min-width: 1024px) { .categories .grid { grid-template-columns: repeat(6, 1fr); } }
-        .categories a { display: flex; align-items: center; justify-content: center; padding: 12px; height: 80px; text-align: center; font-size: 0.9rem; font-weight: 600; color: #fff; background: #1e3a8a; border-radius: 10px; text-decoration: none; transition: transform 0.2s ease; }
-        .categories a:hover { transform: translateY(-3px); background: #3b82f6; }
-        footer { background: #1e293b; padding: 16px; text-align: center; border-top: 1px solid #334155; }
-        footer .container-zon { display: flex; flex-direction: column; gap: 12px; }
+        .categories a { display: flex; align-items: center; justify-content: center; padding: 0.75rem; height: 5rem; text-align: center; font-size: 0.9rem; font-weight: 600; color: #fff; background: #1e3a8a; border-radius: 0.75rem; text-decoration: none; transition: transform 0.2s ease; }
+        .categories a:hover { transform: translateY(-0.25rem); background: #3b82f6; }
+        footer { background: #1e293b; padding: 1rem; text-align: center; border-top: 1px solid #334155; }
+        footer .container-zon { display: flex; flex-direction: column; gap: 0.75rem; }
         footer p { font-size: 0.8rem; color: #94a3b8; }
-        footer .footer-links { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+        footer .footer-links { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
         footer .footer-links a { color: #60a5fa; text-decoration: none; font-weight: 500; }
         footer .footer-links a:hover { color: #93c5fd; }
-        footer .social-icons { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+        footer .social-icons { display: flex; justify-content: center; gap: 0.75rem; flex-wrap: wrap; }
         footer .social-icons a { color: #e2e8f0; font-size: 1.1rem; }
         footer .social-icons a:hover { color: #60a5fa; }
-        .mb-8 { margin-bottom: 32px; }
+        .mb-8 { margin-bottom: 2rem; }
+
+        /* Nav Toggle and Search Bar Responsive Styles */
+        @media (max-width: 767px) {
+            .nav-toggle { display: block; }
+            header nav { display: none; width: 100%; flex-direction: column; align-items: flex-start; background: #1e3a8a; padding: 1rem 0; position: absolute; top: 100%; left: 0; }
+            header nav.active { display: flex; }
+            header nav ul { flex-direction: column; width: 100%; }
+            header nav ul li { width: 100%; }
+            header nav ul a { padding: 0.75rem; display: block; }
+            .search-bar { max-width: 200px; }
+            .search-bar input { padding: 0.4rem 2rem 0.4rem 0.75rem; font-size: 0.85rem; }
+            .search-bar .search-icon { right: 0.5rem; font-size: 0.9rem; }
+        }
+        @media (max-width: 479px) {
+            header .container-zon { flex-direction: column; align-items: flex-start; }
+            .header-right { width: 100%; display: flex; flex-direction: column; align-items: flex-end; }
+            .nav-toggle { margin-right: 0; margin-bottom: 0.5rem; }
+            .search-bar { max-width: 100%; margin-top: 0; }
+        }
     </style>
 </head>
 <body>
@@ -103,6 +257,14 @@
                 <img src="https://via.placeholder.com/32x32?text=Logo" alt="Zontal Logo" loading="lazy">
                 <h1>Zontal</h1>
             </div>
+            <div class="header-right">
+                <div class="nav-toggle"><span></span></div>
+                <div class="search-bar">
+                    <input type="text" id="searchInput" placeholder="Search games...">
+                    <span class="search-icon">🔍</span>
+                    <div class="search-results" id="searchResults"></div>
+                </div>
+            </div>
             <nav>
                 <ul>
                     <li><a href="#home">Home</a></li>
@@ -110,17 +272,9 @@
                     <li><a href="#blogs">Blogs</a></li>
                     <li><a href="#about">About</a></li>
                 </ul>
-                <span class="search-icon">🔍</span>
             </nav>
         </div>
     </header>
-    <div class="search-modal" id="searchModal">
-        <div class="search-box">
-            <span class="close-btn" id="closeSearch">×</span>
-            <input type="text" id="searchInput" placeholder="Search games...">
-            <div class="search-results" id="searchResults"></div>
-        </div>
-    </div>
     <div class="container-zon">
         <section class="featured-game mb-8">
             <h2>Featured Games</h2>
@@ -152,254 +306,11 @@
                     </div>
                 </div>
             </div>
-            <div class="slider-nav">
-                <button class="prev">←</button>
-                <button class="next">→</button>
-            </div>
+           
         </section>
-        <section class="all-games mb-8">
+       <section class="all-games mb-8">
             <h2>All Games</h2>
             <div id="zon_games" class="masonry-grid">
-                <a href="game-1.html" class="game-card" data-name="Game 1">
-                    <div class="card-body small">
-                        <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75" alt="Game 1" loading="lazy" srcset="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
-                        <div class="gradient-overlay"></div>
-                        <div class="play-text">Play</div>
-                        <h3>Game 1</h3>
-                    </div>
-                </a>
-                <a href="game-1.html" class="game-card" data-name="Game 1">
-                    <div class="card-body small">
-                        <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75" alt="Game 1" loading="lazy" srcset="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
-                        <div class="gradient-overlay"></div>
-                        <div class="play-text">Play</div>
-                        <h3>Game 1</h3>
-                    </div>
-                </a>
-                <a href="game-1.html" class="game-card" data-name="Game 1">
-                    <div class="card-body small">
-                        <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75" alt="Game 1" loading="lazy" srcset="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
-                        <div class="gradient-overlay"></div>
-                        <div class="play-text">Play</div>
-                        <h3>Game 1</h3>
-                    </div>
-                </a>
-                <a href="game-1.html" class="game-card" data-name="Game 1">
-                    <div class="card-body small">
-                        <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75" alt="Game 1" loading="lazy" srcset="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
-                        <div class="gradient-overlay"></div>
-                        <div class="play-text">Play</div>
-                        <h3>Game 1</h3>
-                    </div>
-                </a>
-                <a href="game-1.html" class="game-card" data-name="Game 1">
-                    <div class="card-body small">
-                        <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75" alt="Game 1" loading="lazy" srcset="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
-                        <div class="gradient-overlay"></div>
-                        <div class="play-text">Play</div>
-                        <h3>Game 1</h3>
-                    </div>
-                </a>
-                <a href="game-1.html" class="game-card" data-name="Game 1">
-                    <div class="card-body small">
-                        <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75" alt="Game 1" loading="lazy" srcset="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
-                        <div class="gradient-overlay"></div>
-                        <div class="play-text">Play</div>
-                        <h3>Game 1</h3>
-                    </div>
-                </a>
-                <a href="game-1.html" class="game-card" data-name="Game 1">
-                    <div class="card-body small">
-                        <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75" alt="Game 1" loading="lazy" srcset="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
-                        <div class="gradient-overlay"></div>
-                        <div class="play-text">Play</div>
-                        <h3>Game 1</h3>
-                    </div>
-                </a>
-                <a href="game-1.html" class="game-card" data-name="Game 1">
-                    <div class="card-body small">
-                        <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75" alt="Game 1" loading="lazy" srcset="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
-                        <div class="gradient-overlay"></div>
-                        <div class="play-text">Play</div>
-                        <h3>Game 1</h3>
-                    </div>
-                </a>
-                <a href="game-1.html" class="game-card" data-name="Game 1">
-                    <div class="card-body small">
-                        <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75" alt="Game 1" loading="lazy" srcset="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
-                        <div class="gradient-overlay"></div>
-                        <div class="play-text">Play</div>
-                        <h3>Game 1</h3>
-                    </div>
-                </a>
-                <a href="game-1.html" class="game-card" data-name="Game 1">
-                    <div class="card-body small">
-                        <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75" alt="Game 1" loading="lazy" srcset="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
-                        <div class="gradient-overlay"></div>
-                        <div class="play-text">Play</div>
-                        <h3>Game 1</h3>
-                    </div>
-                </a>
-                <a href="game-1.html" class="game-card" data-name="Game 1">
-                    <div class="card-body small">
-                        <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75" alt="Game 1" loading="lazy" srcset="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
-                        <div class="gradient-overlay"></div>
-                        <div class="play-text">Play</div>
-                        <h3>Game 1</h3>
-                    </div>
-                </a>
-                <a href="game-1.html" class="game-card" data-name="Game 1">
-                    <div class="card-body small">
-                        <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75" alt="Game 1" loading="lazy" srcset="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
-                        <div class="gradient-overlay"></div>
-                        <div class="play-text">Play</div>
-                        <h3>Game 1</h3>
-                    </div>
-                </a>
-                <a href="game-1.html" class="game-card" data-name="Game 1">
-                    <div class="card-body small">
-                        <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75" alt="Game 1" loading="lazy" srcset="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
-                        <div class="gradient-overlay"></div>
-                        <div class="play-text">Play</div>
-                        <h3>Game 1</h3>
-                    </div>
-                </a>
-                <a href="game-1.html" class="game-card" data-name="Game 1">
-                    <div class="card-body small">
-                        <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75" alt="Game 1" loading="lazy" srcset="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
-                        <div class="gradient-overlay"></div>
-                        <div class="play-text">Play</div>
-                        <h3>Game 1</h3>
-                    </div>
-                </a>
-                <a href="game-1.html" class="game-card" data-name="Game 1">
-                    <div class="card-body small">
-                        <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75" alt="Game 1" loading="lazy" srcset="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
-                        <div class="gradient-overlay"></div>
-                        <div class="play-text">Play</div>
-                        <h3>Game 1</h3>
-                    </div>
-                </a>
-                <a href="game-1.html" class="game-card" data-name="Game 1">
-                    <div class="card-body small">
-                        <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75" alt="Game 1" loading="lazy" srcset="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
-                        <div class="gradient-overlay"></div>
-                        <div class="play-text">Play</div>
-                        <h3>Game 1</h3>
-                    </div>
-                </a>
-                <a href="game-1.html" class="game-card" data-name="Game 1">
-                    <div class="card-body small">
-                        <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75" alt="Game 1" loading="lazy" srcset="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
-                        <div class="gradient-overlay"></div>
-                        <div class="play-text">Play</div>
-                        <h3>Game 1</h3>
-                    </div>
-                </a>
-                <a href="game-1.html" class="game-card" data-name="Game 1">
-                    <div class="card-body small">
-                        <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75" alt="Game 1" loading="lazy" srcset="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
-                        <div class="gradient-overlay"></div>
-                        <div class="play-text">Play</div>
-                        <h3>Game 1</h3>
-                    </div>
-                </a>
-                <a href="game-1.html" class="game-card" data-name="Game 1">
-                    <div class="card-body small">
-                        <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75" alt="Game 1" loading="lazy" srcset="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
-                        <div class="gradient-overlay"></div>
-                        <div class="play-text">Play</div>
-                        <h3>Game 1</h3>
-                    </div>
-                </a>
-                <a href="game-1.html" class="game-card" data-name="Game 1">
-                    <div class="card-body small">
-                        <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75" alt="Game 1" loading="lazy" srcset="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
-                        <div class="gradient-overlay"></div>
-                        <div class="play-text">Play</div>
-                        <h3>Game 1</h3>
-                    </div>
-                </a>
-                <a href="game-1.html" class="game-card" data-name="Game 1">
-                    <div class="card-body small">
-                        <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75" alt="Game 1" loading="lazy" srcset="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
-                        <div class="gradient-overlay"></div>
-                        <div class="play-text">Play</div>
-                        <h3>Game 1</h3>
-                    </div>
-                </a>
-                <a href="game-1.html" class="game-card" data-name="Game 1">
-                    <div class="card-body small">
-                        <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75" alt="Game 1" loading="lazy" srcset="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
-                        <div class="gradient-overlay"></div>
-                        <div class="play-text">Play</div>
-                        <h3>Game 1</h3>
-                    </div>
-                </a>
-                <a href="game-1.html" class="game-card" data-name="Game 1">
-                    <div class="card-body small">
-                        <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75" alt="Game 1" loading="lazy" srcset="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
-                        <div class="gradient-overlay"></div>
-                        <div class="play-text">Play</div>
-                        <h3>Game 1</h3>
-                    </div>
-                </a>
-                <a href="game-1.html" class="game-card" data-name="Game 1">
-                    <div class="card-body small">
-                        <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75" alt="Game 1" loading="lazy" srcset="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
-                        <div class="gradient-overlay"></div>
-                        <div class="play-text">Play</div>
-                        <h3>Game 1</h3>
-                    </div>
-                </a>
-                <a href="game-1.html" class="game-card" data-name="Game 1">
-                    <div class="card-body small">
-                        <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75" alt="Game 1" loading="lazy" srcset="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
-                        <div class="gradient-overlay"></div>
-                        <div class="play-text">Play</div>
-                        <h3>Game 1</h3>
-                    </div>
-                </a>
-                <a href="game-1.html" class="game-card" data-name="Game 1">
-                    <div class="card-body small">
-                        <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75" alt="Game 1" loading="lazy" srcset="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
-                        <div class="gradient-overlay"></div>
-                        <div class="play-text">Play</div>
-                        <h3>Game 1</h3>
-                    </div>
-                </a>
-                <a href="game-1.html" class="game-card" data-name="Game 1">
-                    <div class="card-body small">
-                        <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75" alt="Game 1" loading="lazy" srcset="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
-                        <div class="gradient-overlay"></div>
-                        <div class="play-text">Play</div>
-                        <h3>Game 1</h3>
-                    </div>
-                </a>
-                <a href="game-1.html" class="game-card" data-name="Game 1">
-                    <div class="card-body small">
-                        <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75" alt="Game 1" loading="lazy" srcset="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
-                        <div class="gradient-overlay"></div>
-                        <div class="play-text">Play</div>
-                        <h3>Game 1</h3>
-                    </div>
-                </a>
-                <a href="game-1.html" class="game-card" data-name="Game 1">
-                    <div class="card-body small">
-                        <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75" alt="Game 1" loading="lazy" srcset="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
-                        <div class="gradient-overlay"></div>
-                        <div class="play-text">Play</div>
-                        <h3>Game 1</h3>
-                    </div>
-                </a>
-                <a href="game-1.html" class="game-card" data-name="Game 1">
-                    <div class="card-body small">
-                        <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75" alt="Game 1" loading="lazy" srcset="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
-                        <div class="gradient-overlay"></div>
-                        <div class="play-text">Play</div>
-                        <h3>Game 1</h3>
-                    </div>
-                </a>
                 <a href="game-1.html" class="game-card" data-name="Game 1">
                     <div class="card-body small">
                         <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75" alt="Game 1" loading="lazy" srcset="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
@@ -424,9 +335,387 @@
                         <h3>Game 3</h3>
                     </div>
                 </a>
+                <a href="game-4.html" class="game-card" data-name="Cyber Dash">
+                    <div class="card-body tall">
+                        <img src="https://images.unsplash.com/photo-1534261484204-6a614916a5df?auto=format&fit=crop&w=200&q=75" alt="Cyber Dash" loading="lazy" srcset="https://images.unsplash.com/photo-1534261484204-6a614916a5df?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1534261484204-6a614916a5df?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
+                        <div class="gradient-overlay"></div>
+                        <div class="play-text">Play</div>
+                        <h3>Cyber Dash</h3>
+                    </div>
+                </a>
+                <a href="game-5.html" class="game-card" data-name="Pixel Quest">
+                    <div class="card-body small">
+                        <img src="https://images.unsplash.com/photo-1571752726704-d41940b2475f?auto=format&fit=crop&w=200&q=75" alt="Pixel Quest" loading="lazy" srcset="https://images.unsplash.com/photo-1571752726704-d41940b2475f?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1571752726704-d41940b2475f?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
+                        <div class="gradient-overlay"></div>
+                        <div class="play-text">Play</div>
+                        <h3>Pixel Quest</h3>
+                    </div>
+                </a>
+                <a href="game-6.html" class="game-card" data-name="Starstrike">
+                    <div class="card-body large">
+                        <img src="https://images.unsplash.com/photo-1552820728-8b83bb6b773f?auto=format&fit=crop&w=200&q=75" alt="Starstrike" loading="lazy" srcset="https://images.unsplash.com/photo-1552820728-8b83bb6b773f?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1552820728-8b83bb6b773f?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
+                        <div class="gradient-overlay"></div>
+                        <div class="play-text">Play</div>
+                        <h3>Starstrike</h3>
+                    </div>
+                </a>
+                <a href="game-7.html" class="game-card" data-name="Neon Racer">
+                    <div class="card-body small">
+                        <img src="https://images.unsplash.com/photo-1616716645147-290c5d2500a5?auto=format&fit=crop&w=200&q=75" alt="Neon Racer" loading="lazy" srcset="https://images.unsplash.com/photo-1616716645147-290c5d2500a5?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1616716645147-290c5d2500a5?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
+                        <div class="gradient-overlay"></div>
+                        <div class="play-text">Play</div>
+                        <h3>Neon Racer</h3>
+                    </div>
+                </a>
+                <a href="game-8.html" class="game-card" data-name="Galactic Escape">
+                    <div class="card-body tall">
+                        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=200&q=75" alt="Galactic Escape" loading="lazy" srcset="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
+                        <div class="gradient-overlay"></div>
+                        <div class="play-text">Play</div>
+                        <h3>Galactic Escape</h3>
+                    </div>
+                </a>
+                <a href="game-9.html" class="game-card" data-name="Frosty Run">
+                    <div class="card-body small">
+                        <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75" alt="Frosty Run" loading="lazy" srcset="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
+                        <div class="gradient-overlay"></div>
+                        <div class="play-text">Play</div>
+                        <h3>Frosty Run</h3>
+                    </div>
+                </a>
+                <a href="game-10.html" class="game-card" data-name="Blaze Arena">
+                    <div class="card-body large">
+                        <img src="https://images.unsplash.com/photo-1553481187-be93c21490a9?auto=format&fit=crop&w=200&q=75" alt="Blaze Arena" loading="lazy" srcset="https://images.unsplash.com/photo-1553481187-be93c21490a9?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1553481187-be93c21490a9?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
+                        <div class="gradient-overlay"></div>
+                        <div class="play-text">Play</div>
+                        <h3>Blaze Arena</h3>
+                    </div>
+                </a>
+                <a href="game-11.html" class="game-card" data-name="Shadow Clash">
+                    <div class="card-body small">
+                        <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=200&q=75" alt="Shadow Clash" loading="lazy" srcset="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
+                        <div class="gradient-overlay"></div>
+                        <div class="play-text">Play</div>
+                        <h3>Shadow Clash</h3>
+                    </div>
+                </a>
+                <a href="game-12.html" class="game-card" data-name="Quantum Leap">
+                    <div class="card-body tall">
+                        <img src="https://images.unsplash.com/photo-1534261484204-6a614916a5df?auto=format&fit=crop&w=200&q=75" alt="Quantum Leap" loading="lazy" srcset="https://images.unsplash.com/photo-1534261484204-6a614916a5df?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1534261484204-6a614916a5df?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
+                        <div class="gradient-overlay"></div>
+                        <div class="play-text">Play</div>
+                        <h3>Quantum Leap</h3>
+                    </div>
+                </a>
+                <a href="game-13.html" class="game-card" data-name="Astro Hunt">
+                    <div class="card-body small">
+                        <img src="https://images.unsplash.com/photo-1571752726704-d41940b2475f?auto=format&fit=crop&w=200&q=75" alt="Astro Hunt" loading="lazy" srcset="https://images.unsplash.com/photo-1571752726704-d41940b2475f?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1571752726704-d41940b2475f?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
+                        <div class="gradient-overlay"></div>
+                        <div class="play-text">Play</div>
+                        <h3>Astro Hunt</h3>
+                    </div>
+                </a>
+                <a href="game-14.html" class="game-card" data-name="Mystic Towers">
+                    <div class="card-body large">
+                        <img src="https://images.unsplash.com/photo-1552820728-8b83bb6b773f?auto=format&fit=crop&w=200&q=75" alt="Mystic Towers" loading="lazy" srcset="https://images.unsplash.com/photo-1552820728-8b83bb6b773f?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1552820728-8b83bb6b773f?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
+                        <div class="gradient-overlay"></div>
+                        <div class="play-text">Play</div>
+                        <h3>Mystic Towers</h3>
+                    </div>
+                </a>
+                <a href="game-15.html" class="game-card" data-name="Thunder Strike">
+                    <div class="card-body small">
+                        <img src="https://images.unsplash.com/photo-1616716645147-290c5d2500a5?auto=format&fit=crop&w=200&q=75" alt="Thunder Strike" loading="lazy" srcset="https://images.unsplash.com/photo-1616716645147-290c5d2500a5?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1616716645147-290c5d2500a5?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
+                        <div class="gradient-overlay"></div>
+                        <div class="play-text">Play</div>
+                        <h3>Thunder Strike</h3>
+                    </div>
+                </a>
+                <a href="game-16.html" class="game-card" data-name="Skybound">
+                    <div class="card-body tall">
+                        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=200&q=75" alt="Skybound" loading="lazy" srcset="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
+                        <div class="gradient-overlay"></div>
+                        <div class="play-text">Play</div>
+                        <h3>Skybound</h3>
+                    </div>
+                </a>
+                <a href="game-17.html" class="game-card" data-name="Echo Runner">
+                    <div class="card-body small">
+                        <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75" alt="Echo Runner" loading="lazy" srcset="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
+                        <div class="gradient-overlay"></div>
+                        <div class="play-text">Play</div>
+                        <h3>Echo Runner</h3>
+                    </div>
+                </a>
+                <a href="game-18.html" class="game-card" data-name="Nova Blitz">
+                    <div class="card-body large">
+                        <img src="https://images.unsplash.com/photo-1553481187-be93c21490a9?auto=format&fit=crop&w=200&q=75" alt="Nova Blitz" loading="lazy" srcset="https://images.unsplash.com/photo-1553481187-be93c21490a9?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1553481187-be93c21490a9?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
+                        <div class="gradient-overlay"></div>
+                        <div class="play-text">Play</div>
+                        <h3>Nova Blitz</h3>
+                    </div>
+                </a>
+                <a href="game-19.html" class="game-card" data-name="Glitch Warriors">
+                    <div class="card-body small">
+                        <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=200&q=75" alt="Glitch Warriors" loading="lazy" srcset="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
+                        <div class="gradient-overlay"></div>
+                        <div class="play-text">Play</div>
+                        <h3>Glitch Warriors</h3>
+                    </div>
+                </a>
+                <a href="game-20.html" class="game-card" data-name="Lunar Drift">
+                    <div class="card-body tall">
+                        <img src="https://images.unsplash.com/photo-1534261484204-6a614916a5df?auto=format&fit=crop&w=200&q=75" alt="Lunar Drift" loading="lazy" srcset="https://images.unsplash.com/photo-1534261484204-6a614916a5df?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1534261484204-6a614916a5df?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
+                        <div class="gradient-overlay"></div>
+                        <div class="play-text">Play</div>
+                        <h3>Lunar Drift</h3>
+                    </div>
+                </a>
+                <a href="game-21.html" class="game-card" data-name="Flame Journey">
+                    <div class="card-body small">
+                        <img src="https://images.unsplash.com/photo-1571752726704-d41940b2475f?auto=format&fit=crop&w=200&q=75" alt="Flame Journey" loading="lazy" srcset="https://images.unsplash.com/photo-1571752726704-d41940b2475f?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1571752726704-d41940b2475f?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
+                        <div class="gradient-overlay"></div>
+                        <div class="play-text">Play</div>
+                        <h3>Flame Journey</h3>
+                    </div>
+                </a>
+                <a href="game-22.html" class="game-card" data-name="Dark Orbit">
+                    <div class="card-body large">
+                        <img src="https://images.unsplash.com/photo-1552820728-8b83bb6b773f?auto=format&fit=crop&w=200&q=75" alt="Dark Orbit" loading="lazy" srcset="https://images.unsplash.com/photo-1552820728-8b83bb6b773f?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1552820728-8b83bb6b773f?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
+                        <div class="gradient-overlay"></div>
+                        <div class="play-text">Play</div>
+                        <h3>Dark Orbit</h3>
+                    </div>
+                </a>
+                <a href="game-23.html" class="game-card" data-name="Cosmic Clash">
+                    <div class="card-body small">
+                        <img src="https://images.unsplash.com/photo-1616716645147-290c5d2500a5?auto=format&fit=crop&w=200&q=75" alt="Cosmic Clash" loading="lazy" srcset="https://images.unsplash.com/photo-1616716645147-290c5d2500a5?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1616716645147-290c5d2500a5?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
+                        <div class="gradient-overlay"></div>
+                        <div class="play-text">Play</div>
+                        <h3>Cosmic Clash</h3>
+                    </div>
+                </a>
+                <a href="game-24.html" class="game-card" data-name="Icebreaker">
+                    <div class="card-body tall">
+                        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=200&q=75" alt="Icebreaker" loading="lazy" srcset="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
+                        <div class="gradient-overlay"></div>
+                        <div class="play-text">Play</div>
+                        <h3>Icebreaker</h3>
+                    </div>
+                </a>
+                <a href="game-25.html" class="game-card" data-name="Starforge">
+                    <div class="card-body small">
+                        <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75" alt="Starforge" loading="lazy" srcset="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
+                        <div class="gradient-overlay"></div>
+                        <div class="play-text">Play</div>
+                        <h3>Starforge</h3>
+                    </div>
+                </a>
+                <a href="game-26.html" class="game-card" data-name="Phantom Gate">
+                    <div class="card-body large">
+                        <img src="https://images.unsplash.com/photo-1553481187-be93c21490a9?auto=format&fit=crop&w=200&q=75" alt="Phantom Gate" loading="lazy" srcset="https://images.unsplash.com/photo-1553481187-be93c21490a9?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1553481187-be93c21490a9?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
+                        <div class="gradient-overlay"></div>
+                        <div class="play-text">Play</div>
+                        <h3>Phantom Gate</h3>
+                    </div>
+                </a>
+                <a href="game-27.html" class="game-card" data-name="Eclipse Chase">
+                    <div class="card-body small">
+                        <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=200&q=75" alt="Eclipse Chase" loading="lazy" srcset="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
+                        <div class="gradient-overlay"></div>
+                        <div class="play-text">Play</div>
+                        <h3>Eclipse Chase</h3>
+                    </div>
+                </a>
+                <a href="game-28.html" class="game-card" data-name="Vortex Surge">
+                    <div class="card-body tall">
+                        <img src="https://images.unsplash.com/photo-1534261484204-6a614916a5df?auto=format&fit=crop&w=200&q=75" alt="Vortex Surge" loading="lazy" srcset="https://images.unsplash.com/photo-1534261484204-6a614916a5df?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1534261484204-6a614916a5df?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
+                        <div class="gradient-overlay"></div>
+                        <div class="play-text">Play</div>
+                        <h3>Vortex Surge</h3>
+                    </div>
+                </a>
+                <a href="game-29.html" class="game-card" data-name="Blaster Core">
+                    <div class="card-body small">
+                        <img src="https://images.unsplash.com/photo-1571752726704-d41940b2475f?auto=format&fit=crop&w=200&q=75" alt="Blaster Core" loading="lazy" srcset="https://images.unsplash.com/photo-1571752726704-d41940b2475f?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1571752726704-d41940b2475f?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
+                        <div class="gradient-overlay"></div>
+                        <div class="play-text">Play</div>
+                        <h3>Blaster Core</h3>
+                    </div>
+                </a>
+                <a href="game-30.html" class="game-card" data-name="Solar Flare">
+                    <div class="card-body large">
+                        <img src="https://images.unsplash.com/photo-1552820728-8b83bb6b773f?auto=format&fit=crop&w=200&q=75" alt="Solar Flare" loading="lazy" srcset="https://images.unsplash.com/photo-1552820728-8b83bb6b773f?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1552820728-8b83bb6b773f?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
+                        <div class="gradient-overlay"></div>
+                        <div class="play-text">Play</div>
+                        <h3>Solar Flare</h3>
+                    </div>
+                </a>
+                <a href="game-31.html" class="game-card" data-name="Gravity Shift">
+                    <div class="card-body small">
+                        <img src="https://images.unsplash.com/photo-1616716645147-290c5d2500a5?auto=format&fit=crop&w=200&q=75" alt="Gravity Shift" loading="lazy" srcset="https://images.unsplash.com/photo-1616716645147-290c5d2500a5?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1616716645147-290c5d2500a5?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
+                        <div class="gradient-overlay"></div>
+                        <div class="play-text">Play</div>
+                        <h3>Gravity Shift</h3>
+                    </div>
+                </a>
+                <a href="game-32.html" class="game-card" data-name="Nebula Run">
+                    <div class="card-body tall">
+                        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=200&q=75" alt="Nebula Run" loading="lazy" srcset="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
+                        <div class="gradient-overlay"></div>
+                        <div class="play-text">Play</div>
+                        <h3>Nebula Run</h3>
+                    </div>
+                </a>
+                <a href="game-33.html" class="game-card" data-name="Rocket Frenzy">
+                    <div class="card-body small">
+                        <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75" alt="Rocket Frenzy" loading="lazy" srcset="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
+                        <div class="gradient-overlay"></div>
+                        <div class="play-text">Play</div>
+                        <h3>Rocket Frenzy</h3>
+                    </div>
+                </a>
+                <a href="game-34.html" class="game-card" data-name="Void Walker">
+                    <div class="card-body large">
+                        <img src="https://images.unsplash.com/photo-1553481187-be93c21490a9?auto=format&fit=crop&w=200&q=75" alt="Void Walker" loading="lazy" srcset="https://images.unsplash.com/photo-1553481187-be93c21490a9?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1553481187-be93c21490a9?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
+                        <div class="gradient-overlay"></div>
+                        <div class="play-text">Play</div>
+                        <h3>Void Walker</h3>
+                    </div>
+                </a>
+                <a href="game-35.html" class="game-card" data-name="Aether Storm">
+                    <div class="card-body small">
+                        <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=200&q=75" alt="Aether Storm" loading="lazy" srcset="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
+                        <div class="gradient-overlay"></div>
+                        <div class="play-text">Play</div>
+                        <h3>Aether Storm</h3>
+                    </div>
+                </a>
+                <a href="game-36.html" class="game-card" data-name="Starlight Duel">
+                    <div class="card-body tall">
+                        <img src="https://images.unsplash.com/photo-1534261484204-6a614916a5df?auto=format&fit=crop&w=200&q=75" alt="Starlight Duel" loading="lazy" srcset="https://images.unsplash.com/photo-1534261484204-6a614916a5df?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1534261484204-6a614916a5df?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
+                        <div class="gradient-overlay"></div>
+                        <div class="play-text">Play</div>
+                        <h3>Starlight Duel</h3>
+                    </div>
+                </a>
+                <a href="game-37.html" class="game-card" data-name="Frostbite">
+                    <div class="card-body small">
+                        <img src="https://images.unsplash.com/photo-1571752726704-d41940b2475f?auto=format&fit=crop&w=200&q=75" alt="Frostbite" loading="lazy" srcset="https://images.unsplash.com/photo-1571752726704-d41940b2475f?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1571752726704-d41940b2475f?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
+                        <div class="gradient-overlay"></div>
+                        <div class="play-text">Play</div>
+                        <h3>Frostbite</h3>
+                    </div>
+                </a>
+                <a href="game-38.html" class="game-card" data-name="Skyforge">
+                    <div class="card-body large">
+                        <img src="https://images.unsplash.com/photo-1552820728-8b83bb6b773f?auto=format&fit=crop&w=200&q=75" alt="Skyforge" loading="lazy" srcset="https://images.unsplash.com/photo-1552820728-8b83bb6b773f?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1552820728-8b83bb6b773f?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
+                        <div class="gradient-overlay"></div>
+                        <div class="play-text">Play</div>
+                        <h3>Skyforge</h3>
+                    </div>
+                </a>
+                <a href="game-39.html" class="game-card" data-name="Pulse Racer">
+                    <div class="card-body small">
+                        <img src="https://images.unsplash.com/photo-1616716645147-290c5d2500a5?auto=format&fit=crop&w=200&q=75" alt="Pulse Racer" loading="lazy" srcset="https://images.unsplash.com/photo-1616716645147-290c5d2500a5?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1616716645147-290c5d2500a5?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
+                        <div class="gradient-overlay"></div>
+                        <div class="play-text">Play</div>
+                        <h3>Pulse Racer</h3>
+                    </div>
+                </a>
+                <a href="game-40.html" class="game-card" data-name="Meteor Dash">
+                    <div class="card-body tall">
+                        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=200&q=75" alt="Meteor Dash" loading="lazy" srcset="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
+                        <div class="gradient-overlay"></div>
+                        <div class="play-text">Play</div>
+                        <h3>Meteor Dash</h3>
+                    </div>
+                </a>
+                <a href="game-41.html" class="game-card" data-name="Dark Nebula">
+                    <div class="card-body small">
+                        <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75" alt="Dark Nebula" loading="lazy" srcset="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
+                        <div class="gradient-overlay"></div>
+                        <div class="play-text">Play</div>
+                        <h3>Dark Nebula</h3>
+                    </div>
+                </a>
+                <a href="game-42.html" class="game-card" data-name="Blaze Runner">
+                    <div class="card-body large">
+                        <img src="https://images.unsplash.com/photo-1553481187-be93c21490a9?auto=format&fit=crop&w=200&q=75" alt="Blaze Runner" loading="lazy" srcset="https://images.unsplash.com/photo-1553481187-be93c21490a9?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1553481187-be93c21490a9?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
+                        <div class="gradient-overlay"></div>
+                        <div class="play-text">Play</div>
+                        <h3>Blaze Runner</h3>
+                    </div>
+                </a>
+                <a href="game-43.html" class="game-card" data-name="Astro Clash">
+                    <div class="card-body small">
+                        <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=200&q=75" alt="Astro Clash" loading="lazy" srcset="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
+                        <div class="gradient-overlay"></div>
+                        <div class="play-text">Play</div>
+                        <h3>Astro Clash</h3>
+                    </div>
+                </a>
+                <a href="game-44.html" class="game-card" data-name="Cosmic Drift">
+                    <div class="card-body tall">
+                        <img src="https://images.unsplash.com/photo-1534261484204-6a614916a5df?auto=format&fit=crop&w=200&q=75" alt="Cosmic Drift" loading="lazy" srcset="https://images.unsplash.com/photo-1534261484204-6a614916a5df?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1534261484204-6a614916a5df?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
+                        <div class="gradient-overlay"></div>
+                        <div class="play-text">Play</div>
+                        <h3>Cosmic Drift</h3>
+                    </div>
+                </a>
+                <a href="game-45.html" class="game-card" data-name="Neon Storm">
+                    <div class="card-body small">
+                        <img src="https://images.unsplash.com/photo-1571752726704-d41940b2475f?auto=format&fit=crop&w=200&q=75" alt="Neon Storm" loading="lazy" srcset="https://images.unsplash.com/photo-1571752726704-d41940b2475f?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1571752726704-d41940b2475f?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
+                        <div class="gradient-overlay"></div>
+                        <div class="play-text">Play</div>
+                        <h3>Neon Storm</h3>
+                    </div>
+                </a>
+                <a href="game-46.html" class="game-card" data-name="Quantum Surge">
+                    <div class="card-body large">
+                        <img src="https://images.unsplash.com/photo-1552820728-8b83bb6b773f?auto=format&fit=crop&w=200&q=75" alt="Quantum Surge" loading="lazy" srcset="https://images.unsplash.com/photo-1552820728-8b83bb6b773f?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1552820728-8b83bb6b773f?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
+                        <div class="gradient-overlay"></div>
+                        <div class="play-text">Play</div>
+                        <h3>Quantum Surge</h3>
+                    </div>
+                </a>
+                <a href="game-47.html" class="game-card" data-name="Starstrike X">
+                    <div class="card-body small">
+                        <img src="https://images.unsplash.com/photo-1616716645147-290c5d2500a5?auto=format&fit=crop&w=200&q=75" alt="Starstrike X" loading="lazy" srcset="https://images.unsplash.com/photo-1616716645147-290c5d2500a5?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1616716645147-290c5d2500a5?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
+                        <div class="gradient-overlay"></div>
+                        <div class="play-text">Play</div>
+                        <h3>Starstrike X</h3>
+                    </div>
+                </a>
+                <a href="game-48.html" class="game-card" data-name="Galactic Storm">
+                    <div class="card-body tall">
+                        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=200&q=75" alt="Galactic Storm" loading="lazy" srcset="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
+                        <div class="gradient-overlay"></div>
+                        <div class="play-text">Play</div>
+                        <h3>Galactic Storm</h3>
+                    </div>
+                </a>
+                <a href="game-49.html" class="game-card" data-name="Cyber Blitz">
+                    <div class="card-body small">
+                        <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75" alt="Cyber Blitz" loading="lazy" srcset="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
+                        <div class="gradient-overlay"></div>
+                        <div class="play-text">Play</div>
+                        <h3>Cyber Blitz</h3>
+                    </div>
+                </a>
+                <a href="game-50.html" class="game-card" data-name="Lunar Strike">
+                    <div class="card-body large">
+                        <img src="https://images.unsplash.com/photo-1553481187-be93c21490a9?auto=format&fit=crop&w=200&q=75" alt="Lunar Strike" loading="lazy" srcset="https://images.unsplash.com/photo-1553481187-be93c21490a9?auto=format&fit=crop&w=100&q=75 100w, https://images.unsplash.com/photo-1553481187-be93c21490a9?auto=format&fit=crop&w=200&q=75 200w" sizes="(max-width: 600px) 100px, 200px">
+                        <div class="gradient-overlay"></div>
+                        <div class="play-text">Play</div>
+                        <h3>Lunar Strike</h3>
+                    </div>
+                </a>
             </div>
             <div class="zon-loader">
-                <a class="small"></a><a class="large"></a><a class="tall"></a>
+                <a class="small"></a>
+                <a class="large"></a>
+                <a class="tall"></a>
             </div>
         </section>
         <section class="category-tabs mb-8">
@@ -467,6 +756,16 @@
                 <h2>Explore Categories</h2>
                 <div class="grid">
                     <a href="#adventure"><span>Adventure</span></a>
+                    <a href="#adventure"><span>Adventure</span></a>
+                    <a href="#adventure"><span>Adventure</span></a>
+                    <a href="#adventure"><span>Adventure</span></a>
+                    <a href="#adventure"><span>Adventure</span></a>
+                    <a href="#adventure"><span>Adventure</span></a>
+                    <a href="#adventure"><span>Adventure</span></a>
+                    <a href="#adventure"><span>Adventure</span></a>
+                    <a href="#adventure"><span>Adventure</span></a>
+                    <a href="#adventure"><span>Adventure</span></a>
+                    <a href="#adventure"><span>Adventure</span></a>
                     <a href="#shooting"><span>Shooting</span></a>
                 </div>
             </div>
@@ -494,16 +793,32 @@
 
         function updateSlider() {
             const isDesktop = window.innerWidth >= 1024;
-            const slidesToShow = isDesktop ? 3 : 1;
+            const isTablet = window.innerWidth >= 640;
+            const slidesToShow = isDesktop ? 3 : isTablet ? 2 : 1;
             sliderWrapper.style.transform = `translateX(-${currentIndex * 100 / slidesToShow}%)`;
         }
 
-        function nextSlide() { if (currentIndex < slides.length - 1) currentIndex++; updateSlider(); }
-        function prevSlide() { if (currentIndex > 0) currentIndex--; updateSlider(); }
+        function nextSlide() { 
+            const isDesktop = window.innerWidth >= 1024;
+            const isTablet = window.innerWidth >= 640;
+            const slidesToShow = isDesktop ? 3 : isTablet ? 2 : 1;
+            if (currentIndex < slides.length - slidesToShow) currentIndex++; 
+            else currentIndex = 0;
+            updateSlider(); 
+        }
+        function prevSlide() { 
+            const isDesktop = window.innerWidth >= 1024;
+            const isTablet = window.innerWidth >= 640;
+            const slidesToShow = isDesktop ? 3 : isTablet ? 2 : 1;
+            if (currentIndex > 0) currentIndex--; 
+            else currentIndex = slides.length - slidesToShow;
+            updateSlider(); 
+        }
 
         nextBtn.addEventListener('click', nextSlide);
         prevBtn.addEventListener('click', prevSlide);
         setInterval(nextSlide, 4000);
+        window.addEventListener('resize', updateSlider);
 
         document.querySelectorAll('.tab-btn').forEach(btn => {
             btn.addEventListener('click', () => {
@@ -514,25 +829,43 @@
             });
         });
 
-        const searchModal = document.getElementById('searchModal');
         const searchInput = document.getElementById('searchInput');
         const searchResults = document.getElementById('searchResults');
         const searchIcon = document.querySelector('.search-icon');
-        const closeSearch = document.getElementById('closeSearch');
+        const navToggle = document.querySelector('.nav-toggle');
+        const nav = document.querySelector('nav');
 
-        searchIcon.addEventListener('click', () => searchModal.classList.add('active'));
-        closeSearch.addEventListener('click', () => { searchModal.classList.remove('active'); searchInput.value = ''; searchResults.innerHTML = ''; });
+        searchIcon.addEventListener('click', () => {
+            searchInput.focus();
+        });
+
         searchInput.addEventListener('input', () => {
             const query = searchInput.value.toLowerCase();
             searchResults.innerHTML = '';
-            document.querySelectorAll('.game-card').forEach(card => {
-                if (card.dataset.name.toLowerCase().includes(query) && query) {
-                    const a = document.createElement('a');
-                    a.href = card.href;
-                    a.textContent = card.dataset.name;
-                    searchResults.appendChild(a);
-                }
-            });
+            if (query) {
+                document.querySelectorAll('.game-card').forEach(card => {
+                    if (card.dataset.name.toLowerCase().includes(query)) {
+                        const a = document.createElement('a');
+                        a.href = card.href;
+                        a.textContent = card.dataset.name;
+                        searchResults.appendChild(a);
+                    }
+                });
+                searchResults.classList.add('active');
+            } else {
+                searchResults.classList.remove('active');
+            }
+        });
+
+        searchInput.addEventListener('blur', () => {
+            setTimeout(() => {
+                searchResults.classList.remove('active');
+            }, 200);
+        });
+
+        navToggle.addEventListener('click', () => {
+            nav.classList.toggle('active');
+            navToggle.classList.toggle('active');
         });
     </script>
 </body>
