@@ -6,333 +6,112 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Zontal - Arcade Platform</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: system-ui, -apple-system, sans-serif; line-height: 1.6; background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); color: #e2e8f0; overflow-x: hidden; }
-        html { scroll-behavior: smooth; }
-        .container-zon { max-width: 1320px; margin: 0 auto; padding: 1rem; }
-
-        /* Header Styles */
-        header { 
-            background: rgba(30, 41, 59, 0.9); 
-            border-bottom: 1px solid #334155; 
-            padding: 1.5rem 0; 
-            position: sticky; 
-            top: 0; 
-            z-index: 10; 
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); 
-            border-radius: 0 0 8px 8px; 
-            backdrop-filter: blur(5px); 
+        *,:after,:before{box-sizing:border-box}
+        body{font-family:system-ui,-apple-system,sans-serif;line-height:1.6;background:linear-gradient(135deg,#1e293b 0,#0f172a 100%);color:#e2e8f0;overflow-x:hidden;margin:0}
+        html{scroll-behavior:smooth}
+        .container-zon{max-width:1320px;margin:0 auto;padding:1rem}
+        header{background:rgba(30,41,59,.9);border-bottom:1px solid #334155;padding:1.5rem 0;position:sticky;top:0;z-index:10;box-shadow:0 4px 12px rgba(0,0,0,.3);border-radius:0 0 8px 8px;backdrop-filter:blur(5px)}
+        .header-content{max-width:1320px;margin:0 auto;padding:0 1rem;display:flex;align-items:center;justify-content:space-between;gap:1rem}
+        .logo{display:flex;align-items:center;gap:.75rem;text-decoration:none;transition:transform .2s ease}
+        .logo img{width:48px;height:48px;border-radius:50%;transition:transform .2s ease}
+        .logo:hover img{transform:scale(1.1)}
+        .logo span{font-size:2rem;font-weight:800;color:#fff;background:linear-gradient(90deg,#3b82f6,#f43f5e);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 1px 2px rgba(0,0,0,.5);text-transform:uppercase;letter-spacing:.05em}
+        .nav-links{display:flex;gap:1.5rem;align-items:center;transition:all .3s ease}
+        .nav-links a{color:#e2e8f0;font-weight:600;text-decoration:none;font-size:1.1rem;padding:.25rem .5rem;transition:all .2s ease;position:relative}
+        .nav-links a:hover{color:#3b82f6;background:rgba(255,255,255,.1);border-radius:4px}
+        .nav-links a:after{content:'';position:absolute;width:0;height:2px;background:#3b82f6;left:0;bottom:-4px;transition:width .2s ease}
+        .nav-links a:hover:after{width:100%}
+        .nav-links a.active{color:#3b82f6;font-weight:700;background:rgba(255,255,255,.15);border-radius:4px}
+        .hamburger{display:none;cursor:pointer;width:32px;height:24px;position:relative;transition:all .4s ease}
+        .hamburger span{background:#e2e8f0;height:4px;width:100%;position:absolute;left:0;border-radius:2px;transition:all .4s ease}
+        .hamburger span:nth-child(1){top:0}
+        .hamburger span:nth-child(2){top:10px}
+        .hamburger span:nth-child(3){top:20px}
+        .hamburger.active span:nth-child(1){transform:rotate(45deg);top:10px}
+        .hamburger.active span:nth-child(2){opacity:0}
+        .hamburger.active span:nth-child(3){transform:rotate(-45deg);top:10px}
+        .search-section{margin:2rem 0}
+        .search-bar{width:90vw;max-width:600px;margin:0 auto;position:relative}
+        .search-bar form{display:flex;align-items:center}
+        .search-bar input{width:100%;padding:.75rem 1rem;border-radius:.5rem 0 0 .5rem;border:1px solid #475569;border-right:none;background:#0f172a;color:#e2e8f0;font-size:1rem;transition:border-color .2s ease}
+        .search-bar input:focus{outline:none;border-color:#3b82f6}
+        .search-bar input::placeholder{color:#94a3b8}
+        .search-bar button{padding:.75rem 1.5rem;border-radius:0 .5rem .5rem 0;border:1px solid #475569;border-left:none;background:#f43f5e;color:#fff;cursor:pointer;font-size:1rem;font-weight:600;transition:background .2s ease}
+        .search-bar button:hover{background:#3b82f6}
+        .search-results{margin-top:2rem;display:none}
+        .search-results h2{font-size:1.5rem;font-weight:700;color:#f8fafc;margin:1rem 0;text-align:center}
+        .search-results.active{display:block}
+        .all-games h2{font-size:1.5rem;font-weight:700;color:#f8fafc;margin:1rem 0;text-align:center}
+        .masonry-grid{column-count:5;column-gap:8px;min-height:400px}
+        .masonry-grid a{display:inline-flex;flex-direction:column;border-radius:8px;overflow:hidden;text-decoration:none;transition:transform .3s ease,box-shadow .3s ease;margin-bottom:8px;break-inside:avoid;width:100%;position:relative}
+        .masonry-grid a[data-featured=true]{height:300px}
+        .masonry-grid a[data-popular=true]{height:200px}
+        .masonry-grid a:not([data-featured]):not([data-popular]){height:150px}
+        .masonry-grid a:hover{transform:scale(1.05);box-shadow:0 6px 12px rgba(0,0,0,.3)}
+        .masonry-grid a:before{content:'';position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0);transition:background .3s ease;z-index:1}
+        .masonry-grid a:hover:before{background:rgba(0,0,0,.5)}
+        .masonry-grid img{width:100%;height:100%;object-fit:cover;transition:transform .3s ease}
+        .masonry-grid a:hover img{transform:scale(1.05)}
+        .masonry-grid h3{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#fff;font-size:.9rem;font-weight:600;text-align:center;padding:.5rem;text-shadow:0 1px 2px rgba(0,0,0,.8);opacity:0;transition:opacity .3s ease;z-index:2;width:100%}
+        .masonry-grid a:hover h3,.masonry-grid a:active h3{opacity:1}
+        .masonry-grid a[data-featured=true] h3{font-size:1rem}
+        .menu-tabs{background:#1e293b;padding:1rem 0;margin:2rem 0}
+        .menu-tabs h2{font-size:1.5rem;font-weight:700;color:#f8fafc;margin:0 0 1rem 1rem;text-align:left}
+        .menu-tabs .tabs{max-width:1320px;margin:0 auto;padding:0 1rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:.5rem}
+        .menu-tabs a{display:flex;align-items:center;justify-content:center;padding:.75rem;text-align:center;font-size:.9rem;font-weight:600;color:#fff;background:#1e3a8a;border-radius:.75rem;text-decoration:none;transition:transform .2s ease,background .2s ease}
+        .menu-tabs a:hover{transform:translateY(-.25rem);background:#3b82f6}
+        footer{background:#1e293b;padding:1rem;text-align:center;border-top:1px solid #334155;margin-top:2rem}
+        footer p{font-size:.8rem;color:#cbd5e1}
+        @media(max-width:1024px){
+            header{padding:.75rem 0}
+            .header-content{flex-direction:column;align-items:center;gap:.5rem}
+            .logo{margin-bottom:.5rem}
+            .nav-links{gap:1rem}
+            .nav-links a{font-size:1rem}
+            .masonry-grid{column-count:4}
         }
-        .header-content { 
-            max-width: 1320px; 
-            margin: 0 auto; 
-            padding: 0 1rem; 
-            display: flex; 
-            align-items: center; 
-            justify-content: space-between; 
-            flex-wrap: wrap; 
-            gap: 1rem; 
+        @media(max-width:767px){
+            .header-content{flex-direction:row;align-items:center;justify-content:space-between}
+            .nav-links{display:none;flex-direction:column;gap:.5rem;position:absolute;top:100%;left:0;right:0;background:rgba(30,41,59,.95);padding:1rem;border-bottom:1px solid #334155;border-radius:0 0 8px 8px;box-shadow:0 4px 12px rgba(0,0,0,.3)}
+            .nav-links.active{display:flex}
+            .hamburger{display:block}
+            .logo span{font-size:1.5rem}
+            .logo img{width:36px;height:36px}
+            .nav-links a{font-size:.9rem;padding:.25rem}
+            .masonry-grid{column-count:2}
+            .masonry-grid a{height:120px}
+            .masonry-grid a[data-featured=true]{height:160px}
+            .masonry-grid a[data-popular=true]{height:160px}
+            .masonry-grid h3{font-size:.7rem}
+            .masonry-grid a[data-featured=true] h3{font-size:.8rem}
+            .search-bar input{padding:.5rem .75rem;font-size:.9rem}
+            .search-bar button{padding:.5rem 1rem;font-size:.9rem}
         }
-        .logo { 
-            display: flex; 
-            align-items: center; 
-            gap: 0.75rem; 
-            text-decoration: none; 
-            transition: transform 0.2s ease; 
-        }
-        .logo img { 
-            width: 48px; 
-            height: 48px; 
-            border-radius: 50%; 
-            transition: transform 0.2s ease; 
-        }
-        .logo:hover img { transform: scale(1.1); }
-        .logo span { 
-            font-size: 2rem; 
-            font-weight: 800; 
-            color: #fff; 
-            background: linear-gradient(90deg, #3b82f6, #f43f5e); 
-            -webkit-background-clip: text; 
-            background-clip: text; 
-            color: transparent; 
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5); 
-            text-transform: uppercase; 
-            letter-spacing: 0.05em; 
-        }
-        .nav-links { 
-            display: flex; 
-            gap: 1.5rem; 
-            align-items: center; 
-            transition: all 0.3s ease; 
-        }
-        .nav-links a { 
-            color: #e2e8f0; 
-            font-weight: 600; 
-            text-decoration: none; 
-            font-size: 1.1rem; 
-            padding: 0.25rem 0.5rem; 
-            transition: all 0.2s ease; 
-            position: relative; 
-        }
-        .nav-links a:hover { 
-            color: #3b82f6; 
-            background: rgba(255, 255, 255, 0.1); 
-            border-radius: 4px; 
-        }
-        .nav-links a::after { 
-            content: ''; 
-            position: absolute; 
-            width: 0; 
-            height: 2px; 
-            background: #3b82f6; 
-            left: 0; 
-            bottom: -4px; 
-            transition: width 0.2s ease; 
-        }
-        .nav-links a:hover::after { width: 100%; }
-        .nav-links a.active { 
-            color: #3b82f6; 
-            font-weight: 700; 
-            background: rgba(255, 255, 255, 0.15); 
-            border-radius: 4px; 
-        }
-        .hamburger { 
-            display: none; 
-            cursor: pointer; 
-            width: 32px; 
-            height: 24px; 
-            position: relative; 
-            transition: all 0.4s ease; 
-        }
-        .hamburger span { 
-            background: #e2e8f0; 
-            height: 4px; 
-            width: 100%; 
-            position: absolute; 
-            left: 0; 
-            border-radius: 2px; 
-            transition: all 0.4s ease; 
-        }
-        .hamburger span:nth-child(1) { top: 0; }
-        .hamburger span:nth-child(2) { top: 10px; }
-        .hamburger span:nth-child(3) { top: 20px; }
-        .hamburger.active span:nth-child(1) { 
-            transform: rotate(45deg); 
-            top: 10px; 
-        }
-        .hamburger.active span:nth-child(2) { 
-            opacity: 0; 
-        }
-        .hamburger.active span:nth-child(3) { 
-            transform: rotate(-45deg); 
-            top: 10px; 
-        }
-
-        /* Search Bar Styles */
-        .search-section { margin: 2rem 0; }
-        .search-bar { width: 90vw; max-width: 600px; margin: 0 auto; position: relative; }
-        .search-bar form { display: flex; align-items: center; }
-        .search-bar input { 
-            width: 100%; 
-            padding: 0.75rem 1rem; 
-            border-radius: 0.5rem 0 0 0.5rem; 
-            border: 1px solid #475569; 
-            border-right: none; 
-            background: #0f172a; 
-            color: #e2e8f0; 
-            font-size: 1rem; 
-            transition: border-color 0.2s ease; 
-        }
-        .search-bar input:focus { outline: none; border-color: #3b82f6; }
-        .search-bar input::placeholder { color: #94a3b8; }
-        .search-bar button { 
-            padding: 0.75rem 1.5rem; 
-            border-radius: 0 0.5rem 0.5rem 0; 
-            border: 1px solid #475569; 
-            border-left: none; 
-            background: #f43f5e; 
-            color: #fff; 
-            cursor: pointer; 
-            font-size: 1rem; 
-            font-weight: 600; 
-            transition: background 0.2s ease; 
-        }
-        .search-bar button:hover { background: #3b82f6; }
-
-        @media (max-width: 767px) {
-            .search-bar input { padding: 0.5rem 0.75rem; font-size: 0.9rem; }
-            .search-bar button { padding: 0.5rem 1rem; font-size: 0.9rem; }
-        }
-
-        @media (max-width: 480px) {
-            .search-bar form { flex-direction: column; align-items: stretch; }
-            .search-bar input { border-radius: 0.5rem; border-right: 1px solid #475569; margin-bottom: 0.5rem; }
-            .search-bar button { border-radius: 0.5rem; width: 100%; }
-        }
-
-        /* Search Results Styles */
-        .search-results { margin-top: 2rem; display: none; }
-        .search-results h2 { font-size: 1.5rem; font-weight: 700; color: #f8fafc; margin: 1rem 0; text-align: center; }
-        .search-results.active { display: block; }
-
-        /* Game Section Styles */
-        .all-games h2 { font-size: 1.5rem; font-weight: 700; color: #f8fafc; margin: 1rem 0; text-align: center; }
-
-        /* Game Card Grid (Masonry Layout) */
-        .masonry-grid { 
-            column-count: 5; 
-            column-gap: 8px; 
-            margin: 0; 
-        }
-        .masonry-grid a { 
-            display: inline-flex; 
-            flex-direction: column; 
-            border-radius: 8px; 
-            overflow: hidden; 
-            text-decoration: none; 
-            transition: transform 0.3s ease, box-shadow 0.3s ease; 
-            margin-bottom: 8px; 
-            break-inside: avoid; 
-            width: 100%; 
-            height: 150px; 
-            position: relative; 
-        }
-        .masonry-grid a[data-featured="true"] { 
-            height: 300px; 
-        }
-        .masonry-grid a:hover { 
-            transform: scale(1.05); 
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); 
-        }
-        .masonry-grid a::before { 
-            content: ''; 
-            position: absolute; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%; 
-            background: rgba(0, 0, 0, 0); 
-            transition: background 0.3s ease; 
-            z-index: 1; 
-        }
-        .masonry-grid a:hover::before { 
-            background: rgba(0, 0, 0, 0.5); 
-        }
-        .masonry-grid img { 
-            width: 100%; 
-            height: 100%; 
-            object-fit: cover; 
-            transition: transform 0.3s ease; 
-        }
-        .masonry-grid a:hover img { 
-            transform: scale(1.05); 
-        }
-        .masonry-grid h3 { 
-            position: absolute; 
-            top: 50%; 
-            left: 50%; 
-            transform: translate(-50%, -50%); 
-            color: #fff; 
-            font-size: 0.9rem; 
-            font-weight: 600; 
-            text-align: center; 
-            padding: 0.5rem; 
-            margin: 0; 
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8); 
-            opacity: 0; 
-            transition: opacity 0.3s ease; 
-            z-index: 2; 
-            width: 100%; 
-        }
-        .masonry-grid a:hover h3, 
-        .masonry-grid a:active h3 { 
-            opacity: 1; 
-        }
-        .masonry-grid a[data-featured="true"] h3 { 
-            font-size: 1rem; 
-        }
-        @media (max-width: 767px) {
-            .masonry-grid { 
-                column-count: 2; 
-            }
-            .masonry-grid a { 
-                height: 120px; 
-            }
-            .masonry-grid a[data-featured="true"] { 
-                height: 160px; 
-            }
-            .masonry-grid h3 { font-size: 0.7rem; }
-            .masonry-grid a[data-featured="true"] h3 { font-size: 0.8rem; }
-        }
-
-        /* Mobile Scroll Title Visibility */
-        @media (max-width: 767px) {
-            .masonry-grid a.visible h3 { 
-                opacity: 1; 
-            }
-        }
-
-        /* Menu (Category Tabs) Styles */
-        .menu-tabs { background: #1e293b; padding: 1rem 0; margin: 2rem 0; }
-        .menu-tabs h2 { font-size: 1.5rem; font-weight: 700; color: #f8fafc; margin: 0 0 1rem 1rem; text-align: left; }
-        .menu-tabs .tabs { max-width: 1320px; margin: 0 auto; padding: 0 1rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 0.5rem; }
-        .menu-tabs a { display: flex; align-items: center; justify-content: center; padding: 0.75rem; text-align: center; font-size: 0.9rem; font-weight: 600; color: #fff; background: #1e3a8a; border-radius: 0.75rem; text-decoration: none; transition: transform 0.2s ease, background 0.2s ease; }
-        .menu-tabs a:hover { transform: translateY(-0.25rem); background: #3b82f6; }
-
-        /* Footer Styles */
-        footer { background: #1e293b; padding: 1rem; text-align: center; border-top: 1px solid #334155; margin-top: 2rem; }
-        footer p { font-size: 0.8rem; color: #cbd5e1; }
-
-        /* Responsive Styles */
-        @media (max-width: 1024px) {
-            header { padding: 0.75rem 0; }
-            .header-content { flex-direction: column; align-items: center; gap: 0.5rem; }
-            .logo { margin-bottom: 0.5rem; }
-            .nav-links { gap: 1rem; }
-            .nav-links a { font-size: 1rem; }
-        }
-
-        @media (max-width: 767px) {
-            .header-content { flex-direction: row; align-items: center; justify-content: space-between; }
-            .nav-links { 
-                display: none; 
-                flex-direction: column; 
-                gap: 0.5rem; 
-                position: absolute; 
-                top: 100%; 
-                left: 0; 
-                right: 0; 
-                background: rgba(30, 41, 59, 0.95); 
-                padding: 1rem; 
-                border-bottom: 1px solid #334155; 
-                border-radius: 0 0 8px 8px; 
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); 
-            }
-            .nav-links.active { display: flex; }
-            .hamburger { display: block; }
-            .logo span { font-size: 1.5rem; }
-            .logo img { width: 36px; height: 36px; }
-            .nav-links a { font-size: 0.9rem; padding: 0.25rem; }
+        .masonry-grid a.visible h3{opacity:1}
+        @media(max-width:480px){
+            .search-bar form{flex-direction:column;align-items:stretch}
+            .search-bar input{border-radius:.5rem;border-right:1px solid #475569;margin-bottom:.5rem}
+            .search-bar button{border-radius:.5rem;width:100%}
         }
     </style>
+    <link rel="preload" href="/games.json" as="fetch" crossorigin>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https://images.pexels.com data:;">
 </head>
 <body>
     <header>
         <div class="header-content">
             <a href="index.html" class="logo">
-                <img src="https://images.pexels.com/photos/3165335/pexels-photo-3165335.jpeg?auto=compress&cs=tinysrgb&w=48&h=48&fit=crop" alt="Zontal Arcade Logo" loading="lazy">
+                <img src="https://images.pexels.com/photos/3165335/pexels-photo-3165335.jpeg?auto=compress&cs=tinysrgb&w=48&h=48&fit=crop" width="48" height="48" alt="Zontal Arcade Logo" loading="lazy">
                 <span>Zontal Arcade</span>
             </a>
             <div class="nav-links">
                 <a href="index.html" class="active">Home</a>
-                <a href="categories.html">Categories</a>
+                <a href="category.html">Categories</a>
                 <a href="about.html">About</a>
                 <a href="contact.html">Contact</a>
             </div>
             <div class="hamburger" id="hamburger" role="button" aria-label="Toggle navigation menu" aria-expanded="false">
-                <span></span>
-                <span></span>
-                <span></span>
+                <span></span><span></span><span></span>
             </div>
         </div>
     </header>
@@ -346,16 +125,23 @@
             </div>
             <div class="search-results" id="searchResults">
                 <h2>Search Results</h2>
-                <div class="masonry-grid" id="searchGrid">
-                    <!-- Populated dynamically -->
-                </div>
+                <div class="masonry-grid" id="searchGrid"></div>
             </div>
         </section>
         <section class="all-games">
             <h2>All Games</h2>
             <div id="zon_games" class="masonry-grid">
-                <!-- Populated dynamically -->
+                <!-- Placeholder cards to reserve space -->
+                <a class="game-card placeholder" style="height:300px; background:#2d3748;"></a>
+                <a class="game-card placeholder" style="height:200px; background:#2d3748;"></a>
+                <a class="game-card placeholder" style="height:150px; background:#2d3748;"></a>
+                <a class="game-card placeholder" style="height:150px; background:#2d3748;"></a>
+                <a class="game-card placeholder" style="height:200px; background:#2d3748;"></a>
+                <a class="game-card placeholder" style="height:150px; background:#2d3748;"></a>
+                <a class="game-card placeholder" style="height:150px; background:#2d3748;"></a>
+                <a class="game-card placeholder" style="height:200px; background:#2d3748;"></a>
             </div>
+            <button id="loadMore" style="display:none;padding:.75rem 1.5rem;background:#3b82f6;color:#fff;border:none;border-radius:.5rem;cursor:pointer;margin:1rem auto">Load More</button>
         </section>
         <div class="menu-tabs" id="categories">
             <h2>Game Categories</h2>
@@ -375,16 +161,15 @@
     <footer>
         <p>© 2025 Zontal Arcade Platform. All rights reserved.</p>
     </footer>
-    <script>
-        // Hamburger menu toggle
+    <script defer>
         const hamburger = document.getElementById('hamburger');
         const navLinks = document.querySelector('.nav-links');
 
         hamburger.setAttribute('tabindex', '0');
         hamburger.addEventListener('click', () => {
-            const isExpanded = hamburger.classList.toggle('active');
+            const expanded = hamburger.classList.toggle('active');
             navLinks.classList.toggle('active');
-            hamburger.setAttribute('aria-expanded', isExpanded);
+            hamburger.setAttribute('aria-expanded', expanded);
         });
 
         hamburger.addEventListener('keydown', (e) => {
@@ -399,28 +184,24 @@
                 hamburger.classList.remove('active');
                 navLinks.classList.remove('active');
                 hamburger.setAttribute('aria-expanded', 'false');
-                // Remove active class from all links
-                navLinks.querySelectorAll('a').forEach(a => a.classList.remove('active'));
-                // Add active class to clicked link
+                navLinks.querySelectorAll('a').forEach(l => l.classList.remove('active'));
                 link.classList.add('active');
             });
         });
 
-        // Debounce function for search
-        function debounce(func, wait) {
+        const debounce = (func, delay) => {
             let timeout;
-            return function executedFunction(...args) {
+            return (...args) => {
                 clearTimeout(timeout);
-                timeout = setTimeout(() => func.apply(this, args), wait);
+                timeout = setTimeout(() => func.apply(this, args), delay);
             };
-        }
+        };
 
-        // Fetch games and render
         let allGames = [];
 
         async function loadGames() {
             try {
-                const response = await fetch('/games.json'); // Adjust path as needed
+                const response = await fetch('/games.json', { priority: 'high' });
                 allGames = await response.json();
                 renderHomepageGames();
                 setupIntersectionObserver();
@@ -433,14 +214,20 @@
             const card = document.createElement('a');
             card.href = game.url;
             card.className = 'game-card';
-            card.dataset.name = game.name;
+            card.dataset.name = game.name.toLowerCase();
             card.dataset.category = game.category;
             if (game.featured) card.dataset.featured = 'true';
+            if (game.isPopular) card.dataset.popular = 'true';
 
             const img = document.createElement('img');
             img.src = game.image;
             img.alt = `${game.name} ${game.category}`;
             img.loading = 'lazy';
+            img.decoding = 'async';
+            img.fetchPriority = game.featured || game.isPopular ? 'high' : 'low';
+            img.width = game.featured ? 300 : (game.isPopular ? 200 : 150);
+            img.height = game.featured ? 300 : (game.isPopular ? 200 : 150);
+            img.style.aspectRatio = '1/1';
 
             const title = document.createElement('h3');
             title.textContent = game.name;
@@ -450,79 +237,70 @@
             return card;
         }
 
+        let visibleGamesCount = 8;
+
         function renderHomepageGames() {
             const gameGrid = document.getElementById('zon_games');
-            gameGrid.innerHTML = '';
-            const homepageGames = allGames.filter(game => game.onHomepage);
-            homepageGames.forEach(game => {
+            gameGrid.innerHTML = ''; // Clear placeholders
+            const fragment = document.createDocumentFragment();
+            const gamesToShow = allGames.filter(game => game.onHomepage).slice(0, visibleGamesCount);
+            gamesToShow.forEach(game => {
                 const card = createGameCard(game);
-                gameGrid.appendChild(card);
+                fragment.appendChild(card);
             });
-            updateImageSizes(); // Update image sizes after rendering
+            gameGrid.appendChild(fragment);
+            document.getElementById('loadMore').style.display = gamesToShow.length < allGames.filter(g => g.onHomepage).length ? 'block' : 'none';
         }
 
-        // Search functionality
         const searchInput = document.getElementById('searchInput');
         const searchResults = document.getElementById('searchResults');
         const searchGrid = document.getElementById('searchGrid');
 
         searchInput.addEventListener('input', debounce(function() {
             const query = this.value.trim().toLowerCase();
-            const heading = searchResults.querySelector('h2');
+            const resultsHeader = searchResults.querySelector('h2');
             const noResults = document.createElement('p');
             noResults.textContent = 'No results found';
             noResults.style.color = '#f8fafc';
             noResults.style.textAlign = 'center';
-
             searchGrid.innerHTML = '';
             let hasResults = false;
 
             if (query === '') {
                 searchResults.classList.remove('active');
-                const homepageGames = allGames.filter(game => game.onHomepage);
-                homepageGames.forEach(game => {
+                const fragment = document.createDocumentFragment();
+                allGames.filter(game => game.onHomepage).forEach(game => {
                     const card = createGameCard(game);
-                    searchGrid.appendChild(card);
+                    fragment.appendChild(card);
                 });
+                searchGrid.appendChild(fragment);
             } else {
                 searchResults.classList.add('active');
-                heading.style.display = 'block';
+                resultsHeader.style.display = 'block';
+                const fragment = document.createDocumentFragment();
                 allGames.forEach(game => {
-                    const gameName = game.name.toLowerCase();
-                    if (gameName.includes(query)) {
-                        const card = createGameCard(game);
-                        searchGrid.appendChild(card);
+                    if (game.name.toLowerCase().includes(query)) {
                         hasResults = true;
+                        const card = createGameCard(game);
+                        fragment.appendChild(card);
                     }
                 });
-                if (!hasResults) {
-                    searchGrid.appendChild(noResults);
-                }
+                searchGrid.appendChild(fragment);
+                if (!hasResults) searchGrid.appendChild(noResults);
             }
-            updateImageSizes(); // Update image sizes after search
         }, 300));
 
-        // Dynamically adjust image sizes for small screens
-        function updateImageSizes() {
-            const isSmallScreen = window.innerWidth <= 767;
-            const cards = document.querySelectorAll('.game-card');
-            cards.forEach(card => {
-                const img = card.querySelector('img');
-                const isFeatured = card.dataset.featured === 'true';
-                const baseUrl = img.src.split('?')[0];
-                if (isSmallScreen) {
-                    img.src = `${baseUrl}?auto=compress&cs=tinysrgb&w=${isFeatured ? 160 : 120}&h=${isFeatured ? 160 : 120}&fit=crop`;
-                } else {
-                    img.src = `${baseUrl}?auto=compress&cs=tinysrgb&w=${isFeatured ? 300 : 150}&h=${isFeatured ? 300 : 150}&fit=crop`;
-                }
-            });
-        }
+        const loadMoreBtn = document.getElementById('loadMore');
+        loadMoreBtn.addEventListener('click', () => {
+            visibleGamesCount += 8;
+            renderHomepageGames();
+        });
 
-        // Intersection Observer for mobile title visibility
         function setupIntersectionObserver() {
+            if (window.innerWidth > 767) return; // Skip on laptops
             const observer = new IntersectionObserver((entries, observer) => {
                 entries.forEach(entry => {
-                    if (window.innerWidth <= 767 && entry.intersectionRatio >= 0.5) {
+                    if (entry.intersectionRatio >= 0.5) {
                         entry.target.classList.add('visible');
                     } else {
                         entry.target.classList.remove('visible');
@@ -534,11 +312,15 @@
             cards.forEach(card => observer.observe(card));
         }
 
-        window.addEventListener('resize', debounce(updateImageSizes, 100));
         window.addEventListener('load', () => {
             loadGames();
-            updateImageSizes();
         });
+
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js')
+                .then(() => console.log('Service Worker registered'))
+                .catch(error => console.error('Service Worker registration failed:', error));
+        }
     </script>
 </body>
 </html>
