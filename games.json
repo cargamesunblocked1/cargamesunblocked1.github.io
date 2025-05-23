@@ -95,7 +95,7 @@
         "category": "puzzle",
         "image": "https://images.pexels.com/photos/1630774/pexels-photo-1630774.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop",
         "url": "game-11.html",
-        "featured": false,
+        "featured": true,
         "onHomepage": true
     },
     {
