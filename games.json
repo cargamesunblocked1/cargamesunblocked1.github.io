@@ -1,12 +1,15 @@
 [
     {
         "id": 1,
-        "name": "Game 1",
-        "category": "action",
-        "image": "https://images.pexels.com/photos/1632790/pexels-photo-1632790.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop",
-        "url": "game-1.html",
+        "name": "Drift Boss",
+        "category": "Car",
+        "image": "unnamed.png",
+        "url": "drftboss.html",
+        "embedUrl": "https://drift-boss.game-files.crazygames.com/drift-boss/4/index.html?skipPrerollFirstSession=true",
+        "description": "An exciting action-packed adventure with fast-paced gameplay and dynamic combat in a futuristic cityscape.",
         "featured": false,
-        "onHomepage": true
+        "onHomepage": true,
+        "isPopular": false
     },
     {
         "id": 2,
@@ -14,8 +17,11 @@
         "category": "racing",
         "image": "https://images.pexels.com/photos/442576/pexels-photo-442576.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop",
         "url": "game-2.html",
+        "embedUrl": "https://example.com/embed/game2",
+        "description": "Race against opponents in this thrilling speed challenge.",
         "featured": false,
-        "onHomepage": true
+        "onHomepage": true,
+        "isPopular": false
     },
     {
         "id": 3,
@@ -23,8 +29,11 @@
         "category": "adventure",
         "image": "https://images.pexels.com/photos/373543/pexels-photo-373543.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop",
         "url": "game-3.html",
+        "embedUrl": "https://example.com/embed/game3",
+        "description": "Explore a vast world filled with mysteries and challenges.",
         "featured": false,
-        "onHomepage": true
+        "onHomepage": true,
+        "isPopular": false
     },
     {
         "id": 4,
@@ -32,8 +41,11 @@
         "category": "action",
         "image": "https://images.pexels.com/photos/3165335/pexels-photo-3165335.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop",
         "url": "game-4.html",
+        "embedUrl": "https://example.com/embed/cyberdash",
+        "description": "A futuristic action game with stunning visuals and intense combat.",
         "featured": true,
-        "onHomepage": true
+        "onHomepage": true,
+        "isPopular": true
     },
     {
         "id": 5,
@@ -41,8 +53,11 @@
         "category": "adventure",
         "image": "https://images.pexels.com/photos/777676/pexels-photo-777676.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop",
         "url": "game-5.html",
+        "embedUrl": "https://example.com/embed/pixelquest",
+        "description": "Embark on a pixelated journey through a retro-inspired world.",
         "featured": false,
-        "onHomepage": true
+        "onHomepage": true,
+        "isPopular": false
     },
     {
         "id": 6,
@@ -50,8 +65,11 @@
         "category": "shooting",
         "image": "https://images.pexels.com/photos/1630778/pexels-photo-1630778.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop",
         "url": "game-6.html",
+        "embedUrl": "https://example.com/embed/strike",
+        "description": "Take down enemies in this space-based shooting extravaganza.",
         "featured": false,
-        "onHomepage": true
+        "onHomepage": true,
+        "isPopular": false
     },
     {
         "id": 7,
@@ -59,8 +77,11 @@
         "category": "racing",
         "image": "https://images.pexels.com/photos/1630779/pexels-photo-1630779.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop",
         "url": "game-7.html",
+        "embedUrl": "https://example.com/embed/neonracer",
+        "description": "Race through neon-lit tracks with high-speed action.",
         "featured": true,
-        "onHomepage": true
+        "onHomepage": true,
+        "isPopular": true
     },
     {
         "id": 8,
@@ -68,8 +89,11 @@
         "category": "adventure",
         "image": "https://images.pexels.com/photos/1630777/pexels-photo-1630777.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop",
         "url": "game-8.html",
+        "embedUrl": "https://example.com/embed/galactic",
+        "description": "Escape from a distant galaxy with clever puzzles and exploration.",
         "featured": false,
-        "onHomepage": true
+        "onHomepage": true,
+        "isPopular": false
     },
     {
         "id": 9,
@@ -77,8 +101,11 @@
         "category": "platform",
         "image": "https://images.pexels.com/photos/1630776/pexels-photo-1630776.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop",
         "url": "game-9.html",
+        "embedUrl": "https://example.com/embed/frosty",
+        "description": "Jump and slide through icy platforms in this winter-themed game.",
         "featured": false,
-        "onHomepage": true
+        "onHomepage": true,
+        "isPopular": false
     },
     {
         "id": 10,
@@ -86,8 +113,11 @@
         "category": "multiplayer",
         "image": "https://images.pexels.com/photos/1630775/pexels-photo-1630775.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop",
         "url": "game-10.html",
+        "embedUrl": "https://example.com/embed/blaze",
+        "description": "Battle friends in a fiery multiplayer arena showdown.",
         "featured": true,
-        "onHomepage": true
+        "onHomepage": true,
+        "isPopular": true
     },
     {
         "id": 11,
@@ -95,8 +125,11 @@
         "category": "puzzle",
         "image": "https://images.pexels.com/photos/1630774/pexels-photo-1630774.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop",
         "url": "game-11.html",
-        "featured": true,
-        "onHomepage": true
+        "embedUrl": "https://example.com/embed/mystic",
+        "description": "Solve intricate puzzles in a magical tower setting.",
+        "featured": false,
+        "onHomepage": true,
+        "isPopular": false
     },
     {
         "id": 12,
@@ -104,8 +137,11 @@
         "category": "multiplayer",
         "image": "https://images.pexels.com/photos/1630773/pexels-photo-1630773.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop",
         "url": "game-12.html",
+        "embedUrl": "https://example.com/embed/thunder",
+        "description": "Clash with players in a stormy multiplayer battlefield.",
         "featured": true,
-        "onHomepage": true
+        "onHomepage": true,
+        "isPopular": true
     },
     {
         "id": 13,
@@ -113,8 +149,11 @@
         "category": "platform",
         "image": "https://images.pexels.com/photos/1630772/pexels-photo-1630772.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop",
         "url": "game-13.html",
+        "embedUrl": "https://example.com/embed/echo",
+        "description": "Run and jump through echoing levels with rhythmic challenges.",
         "featured": true,
-        "onHomepage": true
+        "onHomepage": true,
+        "isPopular": true
     },
     {
         "id": 14,
@@ -122,8 +161,11 @@
         "category": "shooting",
         "image": "https://images.pexels.com/photos/1630771/pexels-photo-1630771.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop",
         "url": "game-14.html",
+        "embedUrl": "https://example.com/embed/sky",
+        "description": "Defend the skies from invaders in this shooting game.",
         "featured": false,
-        "onHomepage": false
+        "onHomepage": false,
+        "isPopular": false
     },
     {
         "id": 15,
@@ -131,7 +173,10 @@
         "category": "racing",
         "image": "https://images.pexels.com/photos/1630770/pexels-photo-1630770.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop",
         "url": "game-15.html",
+        "embedUrl": "https://example.com/embed/drift",
+        "description": "Master the art of drifting in this legendary racing experience.",
         "featured": false,
-        "onHomepage": false
+        "onHomepage": false,
+        "isPopular": false
     }
 ]
