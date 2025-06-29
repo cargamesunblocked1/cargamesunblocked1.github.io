@@ -15,7 +15,7 @@
         "id": 2,
         "name": "Game 2",
         "category": "racing",
-        "image": "https://images.pexels.com/photos/442576/pexels-photo-442576.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop",
+        "image": "/Candy_Match_3_Game.avif",
         "url": "game-2.html",
         "embedUrl": "https://example.com/embed/game2",
         "description": "Race against opponents in this thrilling speed challenge.",
